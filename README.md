@@ -1,10 +1,10 @@
-<p align="center">
+<img width="237" height="34" alt="image" src="https://github.com/user-attachments/assets/bbd8d65c-f505-4819-9ea4-f8d3ee73ac85" /><p align="center">
   <img src="./banner.jpg" alt="NavPathX banner" width="500px" height=auto>
 </p>
 <h1 align="center">NavPath X</h1>
 
 - A forked and optimized version of the pathfinding tool called [SimplePath](https://github.com/grayzcale/simplepath) module.
-
+- Documentation [here](https]://github.com/elcapykkzxd/NavPathX/Docs.md)
 ## Credits:
 - [GrayzcaIe](https://github.com/grayzcale)
   - SimplePath Creator.
