@@ -4,7 +4,7 @@
 <h1 align="center">NavPath X</h1>
 
 - A forked and optimized version of the pathfinding tool called [SimplePath](https://github.com/grayzcale/simplepath) module.
-- Documentation [here](https]://github.com/elcapykkzxd/NavPathX/Docs.md)
+- Documentation [here]()
 ## Credits:
 - [GrayzcaIe](https://github.com/grayzcale)
   - SimplePath Creator.
