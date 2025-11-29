@@ -1,4 +1,4 @@
-<img width="237" height="34" alt="image" /><p align="center">
+<p align="center">
   <img src="./banner.jpg" alt="NavPathX banner" width="500px" height=auto>
 </p>
 <h1 align="center">NavPath X</h1>
