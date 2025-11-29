@@ -1,4 +1,4 @@
-<img width="237" height="34" alt="image" src="https://github.com/user-attachments/assets/bbd8d65c-f505-4819-9ea4-f8d3ee73ac85" /><p align="center">
+<img width="237" height="34" alt="image" /><p align="center">
   <img src="./banner.jpg" alt="NavPathX banner" width="500px" height=auto>
 </p>
 <h1 align="center">NavPath X</h1>
