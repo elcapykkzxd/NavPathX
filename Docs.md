@@ -1,10 +1,10 @@
-# NavPath X Documentation
+# NavPathX Documentation
 
 <p align="center">
   <img src="./banner.jpg" alt="NavPathX banner" width="500px">
 </p>
 
-Complete documentation for NavPath X - An optimized pathfinding module for Roblox NPCs and Nextbots.
+Complete documentation for NavPathX - An optimized pathfinding module for Roblox NPCs and Nextbots.
 
 ## Table of Contents
 
@@ -32,7 +32,7 @@ Complete documentation for NavPath X - An optimized pathfinding module for Roblo
 
 ## Overview
 
-NavPath X is a powerful fork of SimplePath that provides enhanced pathfinding capabilities specifically designed for Roblox NPCs and Nextbots. 
+NavPathX is a powerful fork of SimplePath that provides enhanced pathfinding capabilities specifically designed for Roblox NPCs and Nextbots. 
 
 ### Key Features
 
@@ -48,7 +48,7 @@ NavPath X is a powerful fork of SimplePath that provides enhanced pathfinding ca
 
 ### Step 1: Download the Module
 
-Download or copy the `NavPathX.lua` ModuleScript from this repository.
+Download or copy the `NavPathX.luau` ModuleScript from this repository.
 
 ### Step 2: Setup Folder Structure
 
@@ -847,7 +847,7 @@ ServerScriptService/botsCoreSSS/botsPathPoints/botPathPoint
 
 **Q: Can I use this with non-humanoid NPCs?**
 
-A: NavPath X requires a Humanoid component. For non-humanoid movement, you'll need to modify the module or use a different approach.
+A: NavPathX requires a Humanoid component. For non-humanoid movement, you'll need to modify the module or use a different approach.
 
 **Q: How many NPCs can I run simultaneously?**
 
@@ -855,11 +855,11 @@ A: Depends on your game's complexity and server resources. Typically 20-50 NPCs 
 
 **Q: Does this work with R15 and R6?**
 
-A: Yes, NavPath X works with both R15 and R6 character rigs.
+A: Yes, NavPathX works with both R15 and R6 character rigs.
 
 **Q: Can NPCs navigate moving platforms?**
 
-A: NavPath X recalculates paths regularly, so NPCs can adapt to moving platforms, but may struggle with very fast-moving or unpredictable platforms.
+A: NavPathX recalculates paths regularly, so NPCs can adapt to moving platforms, but may struggle with very fast-moving or unpredictable platforms.
 
 **Q: How do I make NPCs avoid certain areas?**
 
@@ -873,7 +873,7 @@ Costs = {
 
 **Q: Can I make NPCs swim?**
 
-A: NavPath X doesn't have built-in swimming. NPCs will avoid water by default. You can allow water pathfinding with:
+A: NavPathX doesn't have built-in swimming. NPCs will avoid water by default. You can allow water pathfinding with:
 
 ```lua
 Costs = {
@@ -885,7 +885,7 @@ But you'll need to implement custom swimming animations and movement.
 
 **Q: Is this compatible with other pathfinding modules?**
 
-A: NavPath X is standalone and doesn't require other modules. Using multiple pathfinding systems on the same NPC may cause conflicts.
+A: NavPathX is standalone and doesn't require other modules. Using multiple pathfinding systems on the same NPC may cause conflicts.
 
 **Q: How do I contribute?**
 
@@ -905,5 +905,6 @@ A: Check the main README.md for contribution guidelines, or open an issue on Git
 MIT License - See LICENSE file for details
 
 ---
+
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
