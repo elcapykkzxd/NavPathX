@@ -1,7 +1,7 @@
 <p align="center">
   <img src="./banner.jpg" alt="NavPathX banner" width="500px" height=auto>
 </p>
-<h1 align="center">NavPath X</h1>
+<h1 align="center">NavPathX</h1>
 
 - A forked and optimized version of the pathfinding tool called [SimplePath](https://github.com/grayzcale/simplepath) module.
 - Documentation [here](https://github.com/elcapykkzxd/NavPathX/blob/main/Docs.md)
@@ -10,13 +10,13 @@
   - SimplePath Creator.
 
 - [elcapykkzxd](https://github.com/elcapykkzxd)
-  - NavPath X owner.
+  - NavPathX owner.
 
 - [Asdfyc123](https://www.roblox.com/users/3669138152/profile)
-  - NavPath X Contributor.
+  - NavPathX Contributor.
 
 - [boydev1444](https://github.com/boydev-1444)
-  - NavPath X Contributor.
+  - NavPathX Contributor.
   - Teached how to make smart pathfinding systems.
 
 ## Initialization
@@ -29,9 +29,9 @@ local Path = NavPathX.SetSettings(
     AgentParameters <table? : { [string] : any }>, -- Default agent parameters.
     VisualizePathfinding : <boolean? : true/false>  -- If visualize the pathfinding operations.
 ) :: <table { -- Must be called as namecall (Path:NAMECALL)
-   PathDestroy : function, -- Destroys the path.
-   PathStop : function, -- Stops the current pathfinding.
-   Run : function, -- Begins pathfinding to goal.
+   NavPathX.Destroy : function, -- Destroys the path.
+   NavPathX.Stop : function, -- Stops the current pathfinding.
+   NavPathX.Run : function, -- Begins pathfinding to goal.
 }>
 
 ```
