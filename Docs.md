@@ -896,9 +896,9 @@ A: Check the main README.md for contribution guidelines, or open an issue on Git
 ## Credits
 
 - **[GrayzcaIe](https://github.com/grayzcale)** - SimplePath Creator
-- **[elcapykkzxd](https://github.com/elcapykkzxd)** - NavPath X Owner
-- **[Asdfyc123](https://www.roblox.com/users/3669138152/profile)** - NavPath X Contributor
-- **[boydev1444](https://github.com/boydev-1444)** - NavPath X Contributor
+- **[elcapykkzxd](https://github.com/elcapykkzxd)** - NavPathX Owner
+- **[Asdfyc123](https://www.roblox.com/users/3669138152/profile)** - NavPathX Contributor
+- **[boydev1444](https://github.com/boydev-1444)** - NavPathX Contributor
 
 ## License
 
@@ -908,3 +908,4 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
