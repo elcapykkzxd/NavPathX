@@ -23,7 +23,7 @@
 - As a "fork" of SimplePath, the function names got renamed.
 - Initialization is below this message.
 ```lua
-local NavPathX = require("@self/NavPathX") -- Or "Navpath.lua(u)?"
+local NavPathX = require("@self/NavPathX") -- Or "NavPathX.lua(u)?"
 local Path = NavPathX.SetSettings( 
     Model : <Instance : Model>,  -- Pathfinding Agent.
     AgentParameters <table? : { [string] : any }>, -- Default agent parameters.
