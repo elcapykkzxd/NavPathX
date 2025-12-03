@@ -1,6 +1,6 @@
 --[[**
 -------------------------------------------------------------------
-TODO: This ModuleScript is For Smart Pathfinding (Especially For Nextbots) that improves original SimplePath and PathfindingService!
+TODO: This ModuleScript is for smart Pathfinding (especially for Nextbots) that improves original SimplePath and PathfindingService!
 Last Update: 29-11-2025
 License: MIT
 
@@ -12,15 +12,15 @@ SimplePath License: MIT
 Shoutout to: @Dragoteryx, creator of DrGBase.
 DrGBase Reference: https://github.com/Dragoteryx/drgbase
 
-Special Thanks To Everyone Involved in This Project and the Open-Source Contributors Who Made This Possible. Excellent Work by all of Them!
+Special thanks to everyone involved in this project and the Open-Source contributors who made this possible. excellent Work by all of them!
 -------------------------------------------------------------------
 **]]--
 
 --------[[ CONTROL PANEL ZONE ]]--------
 local Settings = {
-	TimeVariance = 0.01, -- TODO: This Makes delay for the Pathfinding (in cases of extreme lag in your NPC)(Higher Number = less lag but Pathfinding is More Slow | Less Number = More lag but Pathfinding is More Faster).
+	TimeVariance = 0.01, -- TODO: This makes delay for the Pathfinding (in cases of extreme lag in your NPC), (higher number = less lag but Pathfinding is more slow | less number = more lag but Pathfinding is more faster).
 	ComparisonChecks = 1, -- TODO: Number of stuck checks required before triggering jump.
-	CanJump = true -- TODO: This makes your NPC Can Jump! (true = Jump Enabled | false = Jump Disabled).
+	CanJump = true -- TODO: This makes your NPC can jump! (true = Jump Enabled | false = Jump Disabled).
 }
 -----------------------------------------------------
 local ServerScriptService = game:GetService("ServerScriptService")
