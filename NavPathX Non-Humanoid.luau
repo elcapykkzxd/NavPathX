@@ -33,21 +33,26 @@ local function Log(Level: "print" | "warn" | "error" | "assert", msg, Condition)
 	end
 end
 
-local nodeCore = ServerScriptService.nodeCore
-local nodePathPoints = nodeCore.nodePathPoints
-local nodePathPoint = nodePathPoints.nodePathPoint
-local function CreateVisualWaypoints(Waypoints, targetFolder)
+local botPathPoints = workspace.botPathPoints
+local botsCoreSSS = ServerScriptService.botsCoreSSS
+local botsPathPoints = botsCoreSSS.botsPathPoints
+local visualWaypoint = botsPathPoints.botPathPoint
+local function CreateVisualWaypoints(Waypoints)
 	local VisualWaypoints = {}
-	local ParentFolder = targetFolder
 	for i, Waypoint: PathWaypoint in ipairs(Waypoints) do
-		local VisualWaypointClone = nodePathPoint:Clone()
+		local VisualWaypointClone = visualWaypoint:Clone()
 		VisualWaypointClone.Name = tostring(i)
 		VisualWaypointClone.Position = Waypoint.Position
 		VisualWaypointClone.Locked = true
-		VisualWaypointClone.Transparency = 1
+		VisualWaypointClone.Transparency = 0
 		VisualWaypointClone.Color = (Waypoint == Waypoints[#Waypoints] and Color3.fromRGB(255, 0, 0)) or (Waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(112, 255, 172)) or (Waypoint.Action == Enum.PathWaypointAction.Walk and Color3.fromRGB(255, 255, 255))
-		VisualWaypointClone.Parent = ParentFolder
-		table.insert(VisualWaypoints, VisualWaypointClone)
+		VisualWaypointClone.Parent = botPathPoints
+		if VisualWaypointClone.Transparency == 1 then
+			VisualWaypointClone:Destroy()
+			VisualWaypointClone = nil
+		else
+			table.insert(VisualWaypoints, VisualWaypointClone)
+		end
 	end
 	return VisualWaypoints
 end
@@ -73,6 +78,16 @@ local function GetNonHumanoidWaypoint(self)
 	return 2
 end
 
+local function DisconnectMoveConnection(self)
+	if not getmetatable(self) then
+		return
+	end
+	if self._MoveConnection and self._MoveConnection.Connected then
+		pcall(self._MoveConnection.Disconnect, self._MoveConnection)
+		self._MoveConnection = nil
+	end
+end
+
 function PathConfig.SetSettings(agent, agentParameters, Visualize)
 	local WarnMessage = ""
 	if WarnMessage ~= "" then
@@ -96,8 +111,45 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 	return self
 end
 
+local function SafeDestroyVisualWaypoints(self)
+	if rawget(self, "_VisualWaypoints") == nil then
+		Log("warn", debug.traceback(`Attempt to destroy visual waypoints but _VisualWaypoints is nil`))
+		rawset(self, "_VisualWaypoints", {})
+		return
+	end
+	if self._VisualWaypoints then
+		DestroyVisualWaypoints(self._VisualWaypoints)
+		self._VisualWaypoints = nil
+	end
+end
+
+function PathConfig.PathDestroy(self)
+	if not getmetatable(self) then
+		return
+	end
+	SafeDestroyVisualWaypoints(self)
+	if rawget(self, "_Path") and self._Path then
+		pcall(self._Path.Destroy, self._Path)
+		self._Path = nil
+	end
+	table.clear(self)
+	setmetatable(self, nil)
+end
+
+function PathConfig.PathStop(self)
+	if not getmetatable(self) then
+		return
+	end
+	if rawget(self, "_VisualWaypoints") == nil then
+		Log("warn", debug.traceback(`Attempt to call PathConfig.PathStop(self), _VisualWaypoints is nil`))
+		rawset(self, "_VisualWaypoints", {})
+	end
+	DisconnectMoveConnection(self)
+	self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
+end
+
 export type Goal = Vector3 | BasePart
-function PathConfig.Run(self, target: Goal?, CustomFolder)
+function PathConfig.Run(self, target: Goal?)
 	if not self._agent:IsDescendantOf(workspace) then
 		self._Visualize = false
 	else
@@ -119,7 +171,7 @@ function PathConfig.Run(self, target: Goal?, CustomFolder)
 	self._CurrentWaypoint = 2
 	DestroyVisualWaypoints(self._VisualWaypoints)
 	if self._Visualize then
-		self._VisualWaypoints = CreateVisualWaypoints(self._Waypoints, CustomFolder)
+		self._VisualWaypoints = CreateVisualWaypoints(self._Waypoints)
 	else
 		self._VisualWaypoints = {}
 	end
