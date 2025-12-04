@@ -4,7 +4,7 @@
   <img src="./banner.jpg" alt="NavPathX banner" width="500px">
 </p>
 
-Complete documentation for NavPathX - An optimized pathfinding module for Roblox NPCs and Nextbots.
+Complete documentation for NavPathX - An optimized Pathfinding module for Roblox NPCs and Nextbots.
 
 ## Table of Contents
 
@@ -13,9 +13,9 @@ Complete documentation for NavPathX - An optimized pathfinding module for Roblox
 - [Quick Start](#quick-start)
 - [API Reference](#api-reference)
   - [NavPathX.SetSettings()](#navpathxsetsettings)
-  - [Path.Run()](#pathrun)
-  - [Path.PathStop()](#pathpathstop)
-  - [Path.PathDestroy()](#pathpathdestroy)
+  - [NavPathX.Run()](#NavPathXrun)
+  - [NavPathX.PathStop()](#NavPathXpathstop)
+  - [NavPathX.PathDestroy()](#NavPathXpathdestroy)
 - [Configuration](#configuration)
   - [Control Panel Settings](#control-panel-settings)
   - [Agent Parameters](#agent-parameters)
@@ -908,4 +908,5 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
