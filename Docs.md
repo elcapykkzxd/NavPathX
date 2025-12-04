@@ -13,9 +13,9 @@ Complete documentation for NavPathX - An optimized Pathfinding module for Roblox
 - [Quick Start](#quick-start)
 - [API Reference](#api-reference)
   - [NavPathX.SetSettings()](#navpathxsetsettings)
-  - [NavPathX.Run()](#NavPathXrun)
-  - [NavPathX.PathStop()](#NavPathXpathstop)
-  - [NavPathX.PathDestroy()](#NavPathXpathdestroy)
+  - [NavPathX.Run()](#navpathxrun)
+  - [NavPathX.PathStop()](#navpathxpathstop)
+  - [NavPathX.PathDestroy()](#navpathxpathdestroy)
 - [Configuration](#configuration)
   - [Control Panel Settings](#control-panel-settings)
   - [Agent Parameters](#agent-parameters)
@@ -908,5 +908,6 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
 
