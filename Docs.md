@@ -99,7 +99,7 @@ end
 
 ## API Reference
 
-### NavPathX.SetSettings() {#navpathxsetsettings}
+### NavPathX.SetSettings()
 
 Creates and initializes a new pathfinding instance for an NPC.
 
@@ -908,6 +908,7 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
 
 
