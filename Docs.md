@@ -143,7 +143,7 @@ if not Path then
 end
 ```
 
-### NavPathX.Run(Path)
+### NavPathX.Run() {#navpathxrun}
 
 Computes and executes pathfinding to the specified target.
 
@@ -908,6 +908,7 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
 
 
