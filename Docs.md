@@ -183,7 +183,7 @@ if not result then
 end
 ```
 
-### NavPathX.PathStop(Path)
+### NavPathX.PathStop()
 
 Stops the current pathfinding operation and clears all visual waypoints.
 
@@ -206,7 +206,7 @@ game.ReplicatedStorage.StopNPC.OnServerEvent:Connect(function()
 end)
 ```
 
-### NavPathX.PathDestroy(Path)
+### NavPathX.PathDestroy()
 
 Completely destroys the path instance and frees all resources. Call this when removing the NPC or when no longer needed.
 
@@ -908,6 +908,7 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
 
 
