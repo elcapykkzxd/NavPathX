@@ -10,7 +10,7 @@
   - SimplePath Creator.
 
 - [elcapykkzxd](https://github.com/elcapykkzxd)
-  - NavPathX owner.
+  - NavPathX Owner.
 
 - [Asdfyc123](https://www.roblox.com/users/3669138152/profile)
   - NavPathX Contributor.
