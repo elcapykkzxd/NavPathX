@@ -1,16 +1,16 @@
 --[[**
 -------------------------------------------------------------------
 TODO: This ModuleScript is for smart Pathfinding (especially for Nextbots) that improves original SimplePath and PathfindingService!
-Last Update: 29-11-2025
+Last update: 05/12/25
 License: MIT
 
-SimplePath Created by: @GrayzcaIe
+SimplePath created by: @GrayzcaIe
 Modified by: @Papisteve79
-Lil Modifying Helper: @Asdfyc123
-SimplePath Reference: https://grayzcale.github.io/simplepath/
-SimplePath License: MIT
+Lil modifying helper: @Asdfyc123
+SimplePath reference: https://grayzcale.github.io/simplepath/
+SimplePath license: MIT
 Shoutout to: @Dragoteryx, creator of DrGBase.
-DrGBase Reference: https://github.com/Dragoteryx/drgbase
+DrGBase reference: https://github.com/Dragoteryx/drgbase
 
 Special thanks to everyone involved in this project and the Open-Source contributors who made this possible. excellent work by all of them!
 -------------------------------------------------------------------
