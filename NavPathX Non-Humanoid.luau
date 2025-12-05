@@ -1,16 +1,16 @@
 --[[**
 -------------------------------------------------------------------
 TODO: This ModuleScript is for smart Pathfinding (especially for Node entities) that improves original SimplePath and PathfindingService!
-Last Update: 29-11-2025
+Last update: 05/12/25
 License: MIT
 
-SimplePath Created by: @GrayzcaIe
+SimplePath created by: @GrayzcaIe
 Modified by: @Papisteve79
-Lil Modifying Helper: @Asdfyc123
-SimplePath Reference: https://grayzcale.github.io/simplepath/
-SimplePath License: MIT
+Lil modifying helper: @Asdfyc123
+SimplePath reference: https://grayzcale.github.io/simplepath/
+SimplePath license: MIT
 Shoutout to: @Dragoteryx, creator of DrGBase.
-DrGBase Reference: https://github.com/Dragoteryx/drgbase
+DrGBase reference: https://github.com/Dragoteryx/drgbase
 
 Special thanks to everyone involved in this project and the Open-Source contributors who made this possible. excellent work by all of them!
 -------------------------------------------------------------------
@@ -78,16 +78,6 @@ local function GetNonHumanoidWaypoint(self)
 	return 2
 end
 
-local function DisconnectMoveConnection(self)
-	if not getmetatable(self) then
-		return
-	end
-	if self._MoveConnection and self._MoveConnection.Connected then
-		pcall(self._MoveConnection.Disconnect, self._MoveConnection)
-		self._MoveConnection = nil
-	end
-end
-
 function PathConfig.SetSettings(agent, agentParameters, Visualize)
 	local WarnMessage = ""
 	if WarnMessage ~= "" then
@@ -144,7 +134,6 @@ function PathConfig.PathStop(self)
 		Log("warn", debug.traceback(`Attempt to call PathConfig.PathStop(self), _VisualWaypoints is nil`))
 		rawset(self, "_VisualWaypoints", {})
 	end
-	DisconnectMoveConnection(self)
 	self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
 end
 
