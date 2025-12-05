@@ -12,7 +12,7 @@ SimplePath license: MIT
 Shoutout to: @Dragoteryx, creator of DrGBase.
 DrGBase reference: https://github.com/Dragoteryx/drgbase
 
-Special thanks to everyone involved in this project and the Open-Source contributors who made this possible. excellent work by all of them!
+Special thanks to everyone involved in this project and the Open-Source contributors who made this possible. Excellent work by all of them!
 -------------------------------------------------------------------
 **]]--
 
