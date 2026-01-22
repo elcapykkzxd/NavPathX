@@ -38,7 +38,12 @@ local PathConfig = {}
 PathConfig.__index = PathConfig
 local scriptName = script.Name
 local function Log(level, Msg, Condition)
-	local ValidLevels = {print = true, warn = true, error = true, assert = true}
+	local ValidLevels = {
+		print = true,
+		warn = true,
+		error = true,
+		assert = true
+	}
 	if not ValidLevels[level] then
 		level = "print"
 	end
