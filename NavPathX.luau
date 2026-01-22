@@ -279,7 +279,8 @@ end
 
 export type Goal = Vector3 | BasePart
 function PathConfig.Run(self, target: Goal?)
-	if not self._agent:IsDescendantOf(workspace) then
+	if self._agent and not self._agent:IsDescendantOf(workspace) then
+		DestroyVisualWaypoints(self._VisualWaypoints)
 		self._Visualize = false
 	else
 		self._Visualize = self._OriginalVisualize
