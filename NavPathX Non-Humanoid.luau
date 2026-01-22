@@ -123,7 +123,7 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 		_Visualize = Visualize or false,
 		_OriginalVisualize = Visualize or false,
 		_VisualWaypoints = {},
-		--_Time = 0,
+		--_Time = 0
 	}, PathConfig)
 	return self
 end
