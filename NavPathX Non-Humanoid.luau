@@ -10,7 +10,7 @@ Authors:
 
 Open-Source Helpers:
   - @GrayzcaIe (SimplePath Creator)
-  
+
 Licenses:
   - NavPathX License: MIT
   - SimplePath License: MIT
