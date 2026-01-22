@@ -1,39 +1,59 @@
---[[**
+--[[
+=======================================================================
+NavPathX Smart AI Navigation System Module - Non-Humanoid Edition
+Version: 1.0.1 | Last Updated: 2026-01-22
+=======================================================================
+Authors:
+  - @Papisteve79 (Lead Developer)
+  - @Asdfyc123 (Helper)
+  - @xXPRO2929_XDXx (Inspiration/Helper)
+
+Open-Source Helpers:
+  - @GrayzcaIe (SimplePath Creator)
+  
+Licenses:
+  - NavPathX License: MIT
+  - SimplePath License: MIT
+
+Inspirations:
+  - @GrayzcaIe (SimplePath Creator)
+  - @xXPRO2929_XDXx (Inspiration/Helper)
+  - @Dragoteryx (DrGBase Creator)
+
+References:
+  - https://github.com/elcapykkzxd/NavPathX
+  - https://grayzcale.github.io/simplepath/ | https://github.com/grayzcale/simplepath
+  - https://github.com/Dragoteryx/drgbase
+=======================================================================
+]]--
+
+--------[[ DEBUG ZONE ]]--------
+--[[local Settings = {
+	TimeVariance = 0.01, -- TODO: Pathfinding delay for lag compensation (higher = less lag but slower | lower = more lag but faster)
+}]]
 -------------------------------------------------------------------
-TODO: This ModuleScript is for smart Pathfinding (especially for Node entities) that improves original SimplePath and PathfindingService!
-Last update: 05/12/25
-License: MIT
-
-SimplePath created by: @GrayzcaIe
-Modified by: @Papisteve79
-Lil modifying helper: @Asdfyc123
-SimplePath reference: https://grayzcale.github.io/simplepath/
-SimplePath license: MIT
-Shoutout to: @Dragoteryx, creator of DrGBase.
-DrGBase reference: https://github.com/Dragoteryx/drgbase
-
-Special thanks to everyone involved in this project and the Open-Source contributors who made this possible. Excellent work by all of them!
--------------------------------------------------------------------
-**]]--
-
------------------------------------------------------
-local ServerScriptService = game:GetService("ServerScriptService")
-local PathfindingService = game:GetService("PathfindingService")
 local PathConfig = {}
 PathConfig.__index = PathConfig
-local function Log(Level: "print" | "warn" | "error" | "assert", msg, Condition)
-	if Level == "print" then
-		print(`[{script.Name} Log]: {msg}`)
-	elseif Level == "warn" then
-		warn(`[{script.Name} warn]: {msg}`)
-	elseif Level == "error" then
-		error(`[{script.Name} error]: {msg}`)
-	elseif Level == "assert" then
-		assert(Condition, `[{script.Name} assert Fail]: {msg}`)
+local scriptName = script.Name
+local function Log(level, Msg, Condition)
+	local ValidLevels = {print = true, warn = true, error = true, assert = true}
+	if not ValidLevels[level] then
+		level = "print"
+	end
+	local Prefix = `[{scriptName} {level}]: `
+	if level == "print" then
+		print(Prefix .. Msg)
+	elseif level == "warn" then
+		warn(Prefix .. Msg)
+	elseif level == "error" then
+		error(Prefix .. Msg)
+	elseif level == "assert" then
+		assert(Condition, Prefix .. Msg)
 	end
 end
 
 local botPathPoints = workspace.botPathPoints
+local ServerScriptService = game:GetService("ServerScriptService")
 local botsCoreSSS = ServerScriptService.botsCoreSSS
 local botsPathPoints = botsCoreSSS.botsPathPoints
 local visualWaypoint = botsPathPoints.botPathPoint
@@ -78,6 +98,7 @@ local function GetNonHumanoidWaypoint(self)
 	return 2
 end
 
+local PathfindingService = game:GetService("PathfindingService")
 function PathConfig.SetSettings(agent, agentParameters, Visualize)
 	local WarnMessage = ""
 	if WarnMessage ~= "" then
@@ -97,6 +118,7 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 		_Visualize = Visualize or false,
 		_OriginalVisualize = Visualize or false,
 		_VisualWaypoints = {},
+		--_Time = 0,
 	}, PathConfig)
 	return self
 end
@@ -148,6 +170,12 @@ function PathConfig.Run(self, target: Goal?)
 		Log("warn", debug.traceback(`target must be a valid Vector3 or BasePart.`))
 		return nil
 	end
+	--[[if os.clock() - self._Time <= Settings.TimeVariance and self._agent and self._agent:IsDescendantOf(workspace) then
+		task.wait(os.clock() - self._Time)
+		return false
+	elseif self._agent and self._agent:IsDescendantOf(workspace) then
+		self._Time = os.clock()
+	end]] -- Enable this if you feel your NPC too laggy (you need Enable _Time = 0 in PathConfig.new(...) function)
 	local PathComputed, _ = pcall(self._Path.ComputeAsync, self._Path, self._agent.Position, target)
 	if not PathComputed or self._Path.Status == Enum.PathStatus.NoPath or #self._Path:GetWaypoints() < 2 then
 		self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
