@@ -1,45 +1,61 @@
---[[**
--------------------------------------------------------------------
-TODO: This ModuleScript is for smart Pathfinding (especially for Nextbots) that improves original SimplePath and PathfindingService!
-Last update: 05/12/25
-License: MIT
+--[[
+=======================================================================
+NavPathX Smart AI Navigation System Module - Standard Edition
+Version: 1.0.1 | Last Updated: 2026-01-22
+=======================================================================
+Authors:
+  - @Papisteve79 (Lead Developer)
+  - @Asdfyc123 (Helper)
+  - @xXPRO2929_XDXx (Inspiration/Helper)
 
-SimplePath created by: @GrayzcaIe
-Modified by: @Papisteve79
-Lil modifying helper: @Asdfyc123
-SimplePath reference: https://grayzcale.github.io/simplepath/
-SimplePath license: MIT
-Shoutout to: @Dragoteryx, creator of DrGBase.
-DrGBase reference: https://github.com/Dragoteryx/drgbase
+Open-Source Helpers:
+  - @GrayzcaIe (SimplePath Creator)
+  
+Licenses:
+  - NavPathX License: MIT
+  - SimplePath License: MIT
 
-Special thanks to everyone involved in this project and the Open-Source contributors who made this possible. Excellent work by all of them!
--------------------------------------------------------------------
-**]]--
+Inspirations:
+  - @GrayzcaIe (SimplePath Creator)
+  - @xXPRO2929_XDXx (Inspiration/Helper)
+  - @Dragoteryx (DrGBase Creator)
 
---------[[ CONTROL PANEL ZONE ]]--------
+References:
+  - https://github.com/elcapykkzxd/NavPathX
+  - https://grayzcale.github.io/simplepath/ | https://github.com/grayzcale/simplepath
+  - https://github.com/Dragoteryx/drgbase
+=======================================================================
+]]--
+
+--------[[ DEBUG ZONE ]]--------
 local Settings = {
-	TimeVariance = 0.01, -- TODO: This makes delay for the Pathfinding (in cases of extreme lag in your NPC), (higher number = less lag but Pathfinding is more slow | less number = more lag but Pathfinding is more faster).
-	ComparisonChecks = 1, -- TODO: Number of stuck checks required before triggering jump.
-	CanJump = true -- TODO: This makes your NPC can jump! (true = Jump Enabled | false = Jump Disabled).
+	TimeVariance = 0.01, -- TODO: Pathfinding delay for lag compensation (higher = less lag but slower | lower = more lag but faster)
+	ComparisonChecks = 1, -- TODO: Stuck position checks before triggering jump
+	CanJump = true -- TODO: Enable/Disable NPC jumping (true = Enabled | false = Disabled)
 }
------------------------------------------------------
-local ServerScriptService = game:GetService("ServerScriptService")
-local PathfindingService = game:GetService("PathfindingService")
+-------------------------------------------------------------------
 local PathConfig = {}
 PathConfig.__index = PathConfig
-local function Log(Level: "print" | "warn" | "error" | "assert", msg, Condition)
-	if Level == "print" then
-		print(`[{script.Name} Log]: {msg}`)
-	elseif Level == "warn" then
-		warn(`[{script.Name} warn]: {msg}`)
-	elseif Level == "error" then
-		error(`[{script.Name} error]: {msg}`)
-	elseif Level == "assert" then
-		assert(Condition, `[{script.Name} assert Fail]: {msg}`)
+local scriptName = script.Name
+local function Log(level, Msg, Condition)
+	local ValidLevels = {print = true, warn = true, error = true, assert = true}
+	if not ValidLevels[level] then
+		level = "print"
+	end
+	local Prefix = `[{scriptName} {level}]: `
+	if level == "print" then
+		print(Prefix .. Msg)
+	elseif level == "warn" then
+		warn(Prefix .. Msg)
+	elseif level == "error" then
+		error(Prefix .. Msg)
+	elseif level == "assert" then
+		assert(Condition, Prefix .. Msg)
 	end
 end
 
 local botPathPoints = workspace.botPathPoints
+local ServerScriptService = game:GetService("ServerScriptService")
 local botsCoreSSS = ServerScriptService.botsCoreSSS
 local botsPathPoints = botsCoreSSS.botsPathPoints
 local visualWaypoint = botsPathPoints.botPathPoint
@@ -100,7 +116,7 @@ local function SetJumpState(self)
 end
 
 local function MoveSelf(self)
-	if Settings.CanJump ~= false and self._Waypoints[self._CurrentWaypoint].Action == Enum.PathWaypointAction.Jump or self._Waypoints[self._CurrentWaypoint].Label == "Jump" or self._target == nil then
+	if Settings.CanJump and (self._Waypoints[self._CurrentWaypoint].Action == Enum.PathWaypointAction.Jump or self._Waypoints[self._CurrentWaypoint].Label == "Jump" or not self._target) then
 		SetJumpState(self)
 	end
 	self._Humanoid:MoveTo(self._Waypoints[self._CurrentWaypoint].Position)
@@ -141,13 +157,13 @@ local function ComparePosition(self)
 	end
 	self._last = CurrentPosition
 	if self._count >= Settings.ComparisonChecks then
-		if Settings.CanJump ~= false then
+		if Settings.CanJump then
 			SetJumpState(self)
 		end
 	end
 end
 
-local DeathConnection
+local PathfindingService = game:GetService("PathfindingService")
 function PathConfig.SetSettings(agent, agentParameters, Visualize)
 	local Humanoid = agent:FindFirstChildOfClass("Humanoid")
 	Log("assert", debug.traceback(`agent must have a valid Humanoid`), Humanoid)
@@ -187,28 +203,29 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 		_lastMovedTime = tick(),
 		--_Time = 0,
 		_last = Vector3.new(),
-		_count = 0
+		_count = 0,
+		_DeathConnection = nil
 	}, PathConfig)
 	self._Path.Blocked:Connect(function(blockedWaypointIdx)
 		if type(blockedWaypointIdx) ~= "number" then
 			Log("warn", debug.traceback(`blockedWaypointIdx is not a number (type: {typeof(blockedWaypointIdx)})`))
 			return
 		end
-		if self._CurrentWaypoint <= blockedWaypointIdx and Settings.CanJump ~= false then
+		if self._CurrentWaypoint <= blockedWaypointIdx and Settings.CanJump then
 			if tick() - (self._lastMovedTime or 0) > 0.5 then
 				SetJumpState(self)
 			end
 		end
 	end)
 	if Humanoid then
-		DeathConnection = Humanoid.Died:Connect(function()
+		self._DeathConnection = Humanoid.Died:Connect(function()
 			if self._Visualize and self._VisualWaypoints then
 				for _ = 0, 5 do
 					task.wait(0.05)
 					DestroyVisualWaypoints(self._VisualWaypoints)
-					if DeathConnection and DeathConnection.Connected then
-						pcall(DeathConnection.Disconnect, DeathConnection)
-						DeathConnection = nil
+					if self._DeathConnection and self._DeathConnection.Connected then
+						pcall(self._DeathConnection.Disconnect, self._DeathConnection)
+						self._DeathConnection = nil
 					end
 					PathConfig.PathDestroy(self)
 				end
@@ -275,7 +292,7 @@ function PathConfig.Run(self, target: Goal?)
 		return false
 	elseif self._Humanoid then
 		self._Time = os.clock()
-	end]] -- Enable this if you feel your NPC too laggy (you need Enable _Time = 0 in PathConfig.new(...) function).
+	end]] -- Enable this if you feel your NPC too laggy (you need Enable _Time = 0 in PathConfig.new(...) function)
 	local PathComputed, _ = pcall(self._Path.ComputeAsync, self._Path, self._PrimaryPart.Position, target)
 	if not PathComputed or self._Path.Status == Enum.PathStatus.NoPath or #self._Path:GetWaypoints() < 2 then
 		self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
