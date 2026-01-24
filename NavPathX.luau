@@ -61,8 +61,8 @@ end
 
 local botPathPoints = workspace.botPathPoints
 local ServerScriptService = game:GetService("ServerScriptService")
-local botsCoreSSS = ServerScriptService.botsCoreSSS
-local botsPathPoints = botsCoreSSS.botsPathPoints
+local botsCore = ServerScriptService.botsCore
+local botsPathPoints = botsCore.botsPathPoints
 local visualWaypoint = botsPathPoints.botPathPoint
 local function CreateVisualWaypoints(Waypoints)
 	local VisualWaypoints = {}
