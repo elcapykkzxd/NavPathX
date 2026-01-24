@@ -25,13 +25,13 @@
 ```lua
 local NavPathX = require("@self/NavPathX") -- Or "NavPathX.lua(u)?"
 local Path = NavPathX.SetSettings( 
-    Model : <Instance : Model>,  -- Pathfinding Agent.
-    agentParameters <table? : { [string] : any }>, -- Default agent parameters.
-    VisualizePathfinding : <boolean? : true/false>  -- If visualize the Pathfinding operations.
+    Model: <Instance: Model>,  -- Pathfinding Agent.
+    agentParameters <table?: {[string]: any}>, -- Default agent parameters.
+    VisualizePathfinding: <boolean?: true/false>  -- If visualize the Pathfinding operations.
 ) :: <table { -- Must be called in a NavPathX namecall (NavPathX.NAMECALL(Path))
-   NavPathX.Destroy : function, -- Destroys the Path.
-   NavPathX.Stop : function, -- Stops the current Pathfinding.
-   NavPathX.Run : function, -- Begins Pathfinding to goal.
+   NavPathX.Destroy: function, -- Destroys the Path.
+   NavPathX.Stop: function, -- Stops the current Pathfinding.
+   NavPathX.Run: function, -- Begins Pathfinding to goal.
 }>
 
 ```
