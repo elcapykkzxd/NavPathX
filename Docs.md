@@ -55,25 +55,29 @@ Download or copy the `NavPathX.luau` ModuleScript from this repository.
 Place the module in your game and create the required folder structure:
 
 ```
-workspace/
-└── botPathPoints/          (Folder - Contains visual waypoints during runtime)
-
 ServerScriptService/
-├── NavPathX                (ModuleScript - The main module)
-└── botsCoreSSS/            (Folder)
-    └── botsPathPoints/     (Folder)
-        └── botPathPoint    (Part - Template for visual waypoints)
+└── NavPathX                (ModuleScript - The main module)
+
+Workspace/
+└── PathWaypoints           (Folder - Contains visual waypoints during runtime)
+
+ReplicatedStorage/
+└── VisualWaypoint          (Part - Template for visual waypoints)
 ```
 
 ### Step 3: Configure botPathPoint
 
-Create a Part named `botPathPoint` in `ServerScriptService/botsCoreSSS/botsPathPoints/`:
+Create a Part named `VisualWaypoint` in `ReplicatedStorage`:
 
 **Properties:**
 - Shape: Ball or Block
-- Size: Vector3.new(1, 1, 1)
-- Transparency: 0.5
+- Size: Vector3.one * 1 or Vector3.one * 0.3
+- Transparency: 0 or 0.5
 - CanCollide: false
+- CanTouch: false
+- CanQuery: false
+- AudioCanCollide: false (optional)
+- EnableFluidForces: false (optional)
 - Anchored: true
 
 This part will be used as a template for visual waypoints.
@@ -221,6 +225,7 @@ NavPathX.PathDestroy(Path)
 NPC.Humanoid.Died:Connect(function()
     NavPathX.PathDestroy(Path)
     NavPathX = nil
+    Path = nil
 end)
 
 -- Cleanup on removal
@@ -228,6 +233,7 @@ NPC.AncestryChanged:Connect(function(_, parent)
     if not parent then
         NavPathX.PathDestroy(Path)
         NavPathX = nil
+        Path = nil
     end
 end)
 ```
@@ -397,7 +403,7 @@ local function createPatrolNPC(npc, waypointFolder)
         task.wait(2)
         
         -- Move to next waypoint
-        currentIndex = currentIndex % #waypoints + 1
+        currentIndex %= #waypoints + 1
     end
     
     NavPathX.PathDestroy(Path)
@@ -454,7 +460,9 @@ local function createZombie(zombie)
     end
     
     local function attack(target)
-        if attacking then return end
+        if attacking then
+            return
+        end
         attacking = true
         
         local humanoid = target.Character:FindFirstChild("Humanoid")
@@ -626,6 +634,7 @@ npc.Humanoid.Died:Connect(function()
     if NavPathX then
         NavPathX.PathDestroy(Path)
         NavPathX = nil
+        Path = nil
     end
 end)
 
@@ -634,6 +643,7 @@ npc.AncestryChanged:Connect(function(_, parent)
     if not parent and NavPathX then
         NavPathX.PathDestroy(Path)
         NavPathX = nil
+        Path = nil
     end
 end)
 ```
@@ -908,6 +918,7 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
 
 
