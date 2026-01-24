@@ -59,20 +59,18 @@ local function Log(level, Msg, Condition)
 	end
 end
 
-local botPathPoints = workspace.botPathPoints
-local ServerScriptService = game:GetService("ServerScriptService")
-local botsCore = ServerScriptService.botsCore
-local botsPathPoints = botsCore.botsPathPoints
-local visualWaypoint = botsPathPoints.botPathPoint
+local PathWaypoints = workspace.PathWaypoints
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VisualWaypoint = ReplicatedStorage.VisualWaypoint
 local function CreateVisualWaypoints(Waypoints)
 	local VisualWaypoints = {}
 	for _, Waypoint: PathWaypoint in ipairs(Waypoints) do
-		local VisualWaypointClone = visualWaypoint:Clone()
+		local VisualWaypointClone = VisualWaypoint:Clone()
 		VisualWaypointClone.Position = Waypoint.Position
 		VisualWaypointClone.Locked = true
 		VisualWaypointClone.Transparency = 0
 		VisualWaypointClone.Color = (Waypoint == Waypoints[#Waypoints] and Color3.fromRGB(255, 0, 0)) or (Waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(112, 255, 172)) or (Waypoint.Action == Enum.PathWaypointAction.Walk and Color3.fromRGB(255, 255, 255))
-		VisualWaypointClone.Parent = botPathPoints
+		VisualWaypointClone.Parent = PathWaypoints
 		if VisualWaypointClone.Transparency == 1 then
 			VisualWaypointClone:Destroy()
 			VisualWaypointClone = nil
