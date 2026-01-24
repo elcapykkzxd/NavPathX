@@ -57,21 +57,19 @@ local function Log(level, Msg, Condition)
 	end
 end
 
-local botPathPoints = workspace.botPathPoints
-local ServerScriptService = game:GetService("ServerScriptService")
-local botsCore = ServerScriptService.botsCore
-local botsPathPoints = botsCore.botsPathPoints
-local visualWaypoint = botsPathPoints.botPathPoint
+local PathWaypoints = workspace.PathWaypoints
+local ReplicatedStorage = game:GetService("ReplicatedStorage")
+local VisualWaypoint = ReplicatedStorage.VisualWaypoint
 local function CreateVisualWaypoints(Waypoints)
 	local VisualWaypoints = {}
 	for i, Waypoint: PathWaypoint in ipairs(Waypoints) do
-		local VisualWaypointClone = visualWaypoint:Clone()
+		local VisualWaypointClone = VisualWaypoint:Clone()
 		VisualWaypointClone.Name = tostring(i)
 		VisualWaypointClone.Position = Waypoint.Position
 		VisualWaypointClone.Locked = true
 		VisualWaypointClone.Transparency = 0
 		VisualWaypointClone.Color = (Waypoint == Waypoints[#Waypoints] and Color3.fromRGB(255, 0, 0)) or (Waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(112, 255, 172)) or (Waypoint.Action == Enum.PathWaypointAction.Walk and Color3.fromRGB(255, 255, 255))
-		VisualWaypointClone.Parent = botPathPoints
+		VisualWaypointClone.Parent = PathWaypoints
 		if VisualWaypointClone.Transparency == 1 then
 			VisualWaypointClone:Destroy()
 			VisualWaypointClone = nil
@@ -84,10 +82,10 @@ end
 
 local function DestroyVisualWaypoints(Waypoints2)
 	if Waypoints2 then
-		for i2, Waypoint2 in ipairs(Waypoints2) do
+		for j, Waypoint2 in ipairs(Waypoints2) do
 			if Waypoint2 and Waypoint2:IsA("BasePart") then
 				Waypoint2:Destroy()
-				Waypoints2[i2] = nil
+				Waypoints2[j] = nil
 			end
 		end
 	end
@@ -166,7 +164,7 @@ end
 
 export type Goal = Vector3 | BasePart
 function PathConfig.Run(self, target: Goal?)
-	if not self._agent:IsDescendantOf(workspace) then
+	if self._agent and not self._agent:IsDescendantOf(workspace) then
 		DestroyVisualWaypoints(self._VisualWaypoints)
 		self._Visualize = false
 	else
