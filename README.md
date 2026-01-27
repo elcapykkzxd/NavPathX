@@ -29,9 +29,9 @@ local Path = NavPathX.SetSettings(
     agentParameters <table?: {[string]: any}>, -- Default agent parameters.
     VisualizePathfinding: <boolean?: true/false>  -- If visualize the Pathfinding operations.
 ) :: <table { -- Must be called in a NavPathX namecall (NavPathX.NAMECALL(Path))
-   NavPathX.Destroy: function, -- Destroys the Path.
-   NavPathX.Stop: function, -- Stops the current Pathfinding.
-   NavPathX.Run: function, -- Begins Pathfinding to goal.
+   Path:Destroy: function, -- Destroys the Path.
+   Path:Stop: function, -- Stops the current Pathfinding.
+   Path:Run: function, -- Begins Pathfinding to goal.
 }>
 
 ```
