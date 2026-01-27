@@ -149,7 +149,7 @@ function PathConfig:PathStop()
 		return
 	end
 	if rawget(self, "_VisualWaypoints") == nil then
-		Log("warn", debug.traceback(`Attempt to call PathConfig.PathStop(self), _VisualWaypoints is {typeof(self._VisualWaypoints)}`))
+		Log("warn", debug.traceback(`Attempt to call PathConfig:PathStop(), _VisualWaypoints is {typeof(self._VisualWaypoints)}`))
 		rawset(self, "_VisualWaypoints", {})
 	end
 	self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
