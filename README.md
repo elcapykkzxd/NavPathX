@@ -35,5 +35,5 @@ local Path = NavPathX.SetSettings(
 }>
 
 ```
-## Roblox Free Model:
+## Available on Roblox:
 - [**NavPathX - Smart Pathfinding Module**](https://create.roblox.com/store/asset/105782363313225/NavPathX-Smart-Pathfinding-Module)
