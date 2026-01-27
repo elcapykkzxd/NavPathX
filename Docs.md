@@ -277,7 +277,7 @@ Settings.CanJump = false
 Customize individual NPC pathfinding behavior:
 
 ```lua
-local agentParams = {
+local agentParameters = {
     AgentRadius = 2,
     AgentHeight = 5,
     AgentCanJump = true,
@@ -919,3 +919,4 @@ MIT License - See LICENSE file for details
 
 
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
