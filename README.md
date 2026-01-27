@@ -24,14 +24,14 @@
 - Initialization is below this message.
 ```lua
 local NavPathX = require("@self/NavPathX") -- Or "NavPathX.lua(u)?"
-local Path = NavPathX.SetSettings( 
+local path = NavPathX.SetSettings( 
     Model: <Instance: Model>,  -- Pathfinding Agent.
     agentParameters <table?: {[string]: any}>, -- Default agent parameters.
     VisualizePathfinding: <boolean?: true/false>  -- If visualize the Pathfinding operations.
-) :: <table { -- Must be called in a NavPathX namecall (NavPathX.NAMECALL(Path))
-   Path:Destroy: function, -- Destroys the Path.
-   Path:Stop: function, -- Stops the current Pathfinding.
-   Path:Run: function, -- Begins Pathfinding to goal.
+) :: <table { -- Must be called in a path namecall (path:NAMECALL())
+   path:Destroy: function, -- Destroys the Path.
+   path:Stop: function, -- Stops the current Pathfinding.
+   path:Run: function, -- Begins Pathfinding to goal.
 }>
 
 ```
