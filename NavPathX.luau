@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Standard Edition
-Version: 1.1.1 | Last Updated: 2026-01-22
+Version: 1.1.1 | Last Updated: 2026-01-27
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -118,19 +118,19 @@ local function MoveSelf(self)
 	self._Humanoid:MoveTo(self._Waypoints[self._CurrentWaypoint].Position)
 end
 
-local function MoveToFinish(self, reached)
+local function MoveToFinish(self, Reached)
 	if not getmetatable(self) or not self._Waypoints then
 		return
 	end
 	if not self._Humanoid then
-		if reached and self._CurrentWaypoint + 1 <= #self._Waypoints then
+		if Reached and self._CurrentWaypoint + 1 <= #self._Waypoints then
 			self._CurrentWaypoint += 1
 		else
 			self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
 		end
 		return
 	end
-	if reached and self._CurrentWaypoint + 1 <= #self._Waypoints then
+	if Reached and self._CurrentWaypoint + 1 <= #self._Waypoints then
 		self._CurrentWaypoint += 1
 		MoveSelf(self)
 	else
@@ -223,7 +223,7 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 						pcall(self._DeathConnection.Disconnect, self._DeathConnection)
 						self._DeathConnection = nil
 					end
-					PathConfig.PathDestroy(self)
+					PathConfig:PathDestroy()
 				end
 			end
 		end)
@@ -243,7 +243,7 @@ local function SafeDestroyVisualWaypoints(self)
 	end
 end
 
-function PathConfig.PathDestroy(self)
+function PathConfig:PathDestroy()
 	if not getmetatable(self) then
 		return
 	end
@@ -256,7 +256,7 @@ function PathConfig.PathDestroy(self)
 	setmetatable(self, nil)
 end
 
-function PathConfig.PathStop(self)
+function PathConfig:PathStop()
 	if not getmetatable(self) then
 		return
 	end
@@ -269,7 +269,7 @@ function PathConfig.PathStop(self)
 end
 
 export type Goal = Vector3 | BasePart
-function PathConfig.Run(self, target: Goal?)
+function PathConfig:Run(target: Goal?)
 	if self._agent and not self._agent:IsDescendantOf(workspace) then
 		DestroyVisualWaypoints(self._VisualWaypoints)
 		self._Visualize = false
