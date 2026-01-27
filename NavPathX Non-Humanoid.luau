@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Non-Humanoid Edition
-Version: 1.0.1 | Last Updated: 2026-01-22
+Version: 1.1.1 | Last Updated: 2026-01-22
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
