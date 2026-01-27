@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Non-Humanoid Edition
-Version: 1.1.1 | Last Updated: 2026-01-22
+Version: 1.1.1 | Last Updated: 2026-01-27
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -131,7 +131,7 @@ local function SafeDestroyVisualWaypoints(self)
 	end
 end
 
-function PathConfig.PathDestroy(self)
+function PathConfig:PathDestroy()
 	if not getmetatable(self) then
 		return
 	end
@@ -144,7 +144,7 @@ function PathConfig.PathDestroy(self)
 	setmetatable(self, nil)
 end
 
-function PathConfig.PathStop(self)
+function PathConfig:PathStop()
 	if not getmetatable(self) then
 		return
 	end
@@ -156,7 +156,7 @@ function PathConfig.PathStop(self)
 end
 
 export type Goal = Vector3 | BasePart
-function PathConfig.Run(self, target: Goal?)
+function PathConfig:Run(target: Goal?)
 	if self._agent and not self._agent:IsDescendantOf(workspace) then
 		DestroyVisualWaypoints(self._VisualWaypoints)
 		self._Visualize = false
