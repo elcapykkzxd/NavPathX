@@ -121,7 +121,7 @@ end
 
 local function SafeDestroyVisualWaypoints(self)
 	if rawget(self, "_VisualWaypoints") == nil then
-		Log("warn", debug.traceback(`Attempt to destroy visual waypoints but _VisualWaypoints is nil`))
+		Log("warn", debug.traceback(`Attempt to destroy visual waypoints but _VisualWaypoints is {typeof(self._VisualWaypoints)}`))
 		rawset(self, "_VisualWaypoints", {})
 		return
 	end
@@ -149,7 +149,7 @@ function PathConfig:PathStop()
 		return
 	end
 	if rawget(self, "_VisualWaypoints") == nil then
-		Log("warn", debug.traceback(`Attempt to call PathConfig.PathStop(self), _VisualWaypoints is nil`))
+		Log("warn", debug.traceback(`Attempt to call PathConfig.PathStop(self), _VisualWaypoints is {typeof(self._VisualWaypoints)}`))
 		rawset(self, "_VisualWaypoints", {})
 	end
 	self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
@@ -172,7 +172,7 @@ function PathConfig:Run(target: Goal?)
 		return false
 	elseif self._agent and self._agent:IsDescendantOf(workspace) then
 		self._Time = os.clock()
-	end]] -- Enable this if you feel your NPC too laggy (you need Enable _Time = 0 in PathConfig.new(...) function)
+	end]] -- Enable this if you feel your NPC too laggy (you need Enable _Time = 0 in PathConfig.SetSettings(...) function)
 	local PathComputed, _ = pcall(self._Path.ComputeAsync, self._Path, self._agent.Position, target)
 	if not PathComputed or self._Path.Status == Enum.PathStatus.NoPath or #self._Path:GetWaypoints() < 2 then
 		self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
