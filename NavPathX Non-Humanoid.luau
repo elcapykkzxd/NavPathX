@@ -35,25 +35,18 @@ References:
 local PathConfig = {}
 PathConfig.__index = PathConfig
 local scriptName = script.Name
-local function Log(level, Msg, Condition)
-	local ValidLevels = {
-		print = true,
-		warn = true,
-		error = true,
-		assert = true
-	}
-	if not ValidLevels[level] then
-		level = "print"
-	end
-	local Prefix = `[{scriptName} {level}]: `
-	if level == "print" then
+local function Log(Level, Msg, Condition)
+	local Prefix = `[{scriptName} {Level}]: `
+	if Level == "info" then
 		print(Prefix .. Msg)
-	elseif level == "warn" then
+	elseif Level == "warn" then
 		warn(Prefix .. Msg)
-	elseif level == "error" then
+	elseif Level == "error" then
 		error(Prefix .. Msg)
-	elseif level == "assert" then
+	elseif Level == "assert" then
 		assert(Condition, Prefix .. Msg)
+	else
+		print(`[{scriptName} info]: ` .. Msg)
 	end
 end
 
