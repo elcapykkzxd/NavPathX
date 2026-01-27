@@ -13,9 +13,9 @@ Complete documentation for NavPathX - An optimized Pathfinding module for Roblox
 - [Quick Start](#quick-start)
 - [API Reference](#api-reference)
   - [NavPathX.SetSettings()](#navpathxsetsettings)
-  - [NavPathX.Run()](#navpathxrun)
-  - [NavPathX.PathStop()](#navpathxpathstop)
-  - [NavPathX.PathDestroy()](#navpathxpathdestroy)
+  - [path:Run()](#pathrun)
+  - [path:PathStop()](#pathpathstop)
+  - [path:PathDestroy()](#pathpathdestroy)
 - [Configuration](#configuration)
   - [Control Panel Settings](#control-panel-settings)
   - [Agent Parameters](#agent-parameters)
@@ -91,12 +91,12 @@ local NavPathX = require(game.ServerScriptService.NavPathX)
 
 -- Setup pathfinding for your NPC
 local NPC = workspace.YourNPC
-local Path = NavPathX.SetSettings(NPC, {}, false)
+local path = NavPathX.SetSettings(NPC, {}, false)
 
 -- Main loop
 while NPC and NPC.Parent do
     local target = workspace.TargetPart.Position
-    NavPathX.Run(Path, target)
+    path:Run(target)
     task.wait(0.1)
 end
 ```
@@ -109,7 +109,7 @@ Creates and initializes a new pathfinding instance for an NPC.
 
 **Syntax:**
 ```lua
-local Path = NavPathX.SetSettings(agent, agentParameters, visualize)
+local path = NavPathX.SetSettings(agent, agentParameters, visualize)
 ```
 
 **Parameters:**
@@ -126,7 +126,7 @@ local Path = NavPathX.SetSettings(agent, agentParameters, visualize)
 
 **Example:**
 ```lua
-local Path = NavPathX.SetSettings(
+local path = NavPathX.SetSettings(
     workspace.Zombie,
     {
         AgentRadius = 2,
@@ -141,19 +141,19 @@ local Path = NavPathX.SetSettings(
     true -- Enable visualization during development
 )
 
-if not Path then
+if not path then
     warn("Failed to create path")
     return
 end
 ```
 
-### NavPathX.Run()
+### path:Run()
 
 Computes and executes pathfinding to the specified target.
 
 **Syntax:**
 ```lua
-local result = NavPathX.Run(Path, target)
+local result = path:Run(target)
 ```
 
 **Parameters:**
@@ -170,15 +170,15 @@ local result = NavPathX.Run(Path, target)
 **Example:**
 ```lua
 -- Pathfind to a position
-local result = NavPathX.Run(Path, Vector3.new(100, 5, 100))
+local result = path:Run(Vector3.new(100, 5, 100))
 
 -- Pathfind to a part
-NavPathX.Run(Path, workspace.Player.HumanoidRootPart)
+path:Run(workspace.Player.HumanoidRootPart)
 
 -- Pathfind to player
 local player = game.Players:GetChildren()[1]
 if player and player.Character then
-    NavPathX.Run(Path, player.Character.HumanoidRootPart)
+    path:Run(player.Character.HumanoidRootPart)
 end
 
 -- Check result
@@ -187,13 +187,13 @@ if not result then
 end
 ```
 
-### NavPathX.PathStop()
+### path:PathStop()
 
 Stops the current pathfinding operation and clears all visual waypoints.
 
 **Syntax:**
 ```lua
-NavPathX.PathStop(Path)
+path:PathStop()
 ```
 
 **Example:**
@@ -201,39 +201,39 @@ NavPathX.PathStop(Path)
 -- Stop when reaching destination
 local distance = (NPC.HumanoidRootPart.Position - target.Position).Magnitude
 if distance < 5 then
-    NavPathX.PathStop(Path)
+    path:PathStop()
 end
 
 -- Stop on player command
 game.ReplicatedStorage.StopNPC.OnServerEvent:Connect(function()
-    NavPathX.PathStop(Path)
+    path:PathStop()
 end)
 ```
 
-### NavPathX.PathDestroy()
+### path:PathDestroy()
 
 Completely destroys the path instance and frees all resources. Call this when removing the NPC or when no longer needed.
 
 **Syntax:**
 ```lua
-NavPathX.PathDestroy(Path)
+path:PathDestroy()
 ```
 
 **Example:**
 ```lua
 -- Cleanup on death
 NPC.Humanoid.Died:Connect(function()
-    NavPathX.PathDestroy(Path)
+    path:PathDestroy()
     NavPathX = nil
-    Path = nil
+    path = nil
 end)
 
 -- Cleanup on removal
 NPC.AncestryChanged:Connect(function(_, parent)
     if not parent then
-        NavPathX.PathDestroy(Path)
+        path:PathDestroy()
         NavPathX = nil
-        Path = nil
+        path = nil
     end
 end)
 ```
@@ -323,20 +323,20 @@ Simple chasing AI that follows the nearest player:
 local NavPathX = require(game.ServerScriptService.NavPathX)
 
 local function createNextbot(npc)
-    local Path = NavPathX.SetSettings(npc, {
+    local path = NavPathX.SetSettings(npc, {
         AgentRadius = 2,
         AgentHeight = 5,
         AgentCanJump = true
     })
     
-    if not Path then
+    if not path then
         warn("Failed to create path for", npc.Name)
         return
     end
     
     -- Chase loop
     while npc and npc.Parent and npc.Humanoid.Health > 0 do
-        local nearestPlayer = nil
+        local nearestPlayer
         local shortestDistance = math.huge
         
         for _, player in pairs(game.Players:GetPlayers()) do
@@ -351,13 +351,13 @@ local function createNextbot(npc)
         end
         
         if nearestPlayer and nearestPlayer.Character then
-            NavPathX.Run(Path, nearestPlayer.Character.HumanoidRootPart)
+            path:Run(nearestPlayer.Character.HumanoidRootPart)
         end
         
         task.wait(0.1)
     end
     
-    NavPathX.PathDestroy(Path)
+    path:PathDestroy()
 end
 
 -- Spawn nextbot
@@ -380,7 +380,7 @@ local function createPatrolNPC(npc, waypointFolder)
         return
     end
     
-    local Path = NavPathX.SetSettings(npc, {
+    local path = NavPathX.SetSettings(npc, {
         WaypointSpacing = 3
     }, true)
     
@@ -390,23 +390,25 @@ local function createPatrolNPC(npc, waypointFolder)
         local targetWaypoint = waypoints[currentIndex]
         
         -- Navigate to waypoint
-        NavPathX.Run(Path, targetWaypoint.Position)
+        path:Run(targetWaypoint.Position)
         
         -- Wait until close enough
         repeat
             task.wait(0.1)
-            if not npc.Parent then break end
+            if not npc.Parent then
+                break
+            end
         until (npc.HumanoidRootPart.Position - targetWaypoint.Position).Magnitude < 5
         
         -- Pause at waypoint
-        NavPathX.PathStop(Path)
+        path:PathStop()
         task.wait(2)
         
         -- Move to next waypoint
         currentIndex %= #waypoints + 1
     end
     
-    NavPathX.PathDestroy(Path)
+    path:PathDestroy()
 end
 
 -- Usage
@@ -427,7 +429,7 @@ local ATTACK_RANGE = 5
 local DAMAGE = 10
 
 local function createZombie(zombie)
-    local Path = NavPathX.SetSettings(zombie, {
+    local path = NavPathX.SetSettings(zombie, {
         AgentRadius = 2,
         AgentHeight = 5,
         AgentCanJump = true,
@@ -439,7 +441,7 @@ local function createZombie(zombie)
     local attacking = false
     
     local function findTarget()
-        local nearestPlayer = nil
+        local nearestPlayer
         local shortestDistance = DETECTION_RANGE
         
         for _, player in pairs(game.Players:GetPlayers()) do
@@ -480,19 +482,19 @@ local function createZombie(zombie)
         
         if target and target.Character then
             if distance <= ATTACK_RANGE then
-                NavPathX.PathStop(Path)
+                path:PathStop()
                 attack(target)
             else
-                NavPathX.Run(Path, target.Character.HumanoidRootPart)
+                path:Run(target.Character.HumanoidRootPart)
             end
         else
-            NavPathX.PathStop(Path)
+            path:PathStop()
         end
         
         task.wait(0.15)
     end
     
-    NavPathX.PathDestroy(Path)
+    path:PathDestroy()
 end
 
 -- Spawn zombies
@@ -512,16 +514,15 @@ local NPCManager = {}
 NPCManager.ActiveNPCs = {}
 
 function NPCManager:CreateNPC(npcModel, config)
-    local Path = NavPathX.SetSettings(npcModel, config or {})
+    local path = NavPathX.SetSettings(npcModel, config or {})
     
-    if not Path then
+    if not path then
         warn("Failed to create NPC:", npcModel.Name)
         return nil
     end
     
     local npcData = {
         Model = npcModel,
-        Path = NavPathX,
         PathSettings = Path,
         Target = nil,
         Active = true
@@ -539,7 +540,7 @@ end
 
 function NPCManager:RemoveNPC(npcData)
     npcData.Active = false
-    npcData.Path.PathDestroy(npcData.PathSettings)
+    npcData.PathSettings.PathDestroy()
     
     local index = table.find(self.ActiveNPCs, npcData)
     if index then
@@ -550,7 +551,7 @@ end
 function NPCManager:UpdateAll()
     for _, npcData in pairs(self.ActiveNPCs) do
         if npcData.Active and npcData.Target then
-            npcData.Path.Run(npcData.PathSettings, npcData.Target)
+            npcData.PathSettings.Run(npcData.Target)
         end
     end
 end
@@ -589,7 +590,7 @@ When visualization is enabled, waypoints appear with different colors:
 
 **Enable visualization:**
 ```lua
-local Path = NavPathX.SetSettings(npc, {}, true)
+local path = NavPathX.SetSettings(npc, {}, true)
 ```
 
 **Note:** Always disable visualization in production for better performance.
@@ -601,9 +602,9 @@ local Path = NavPathX.SetSettings(npc, {}, true)
 Always check if the path was created successfully:
 
 ```lua
-local Path = NavPathX.SetSettings(npc, {})
+local path = NavPathX.SetSettings(npc, {})
 
-if not Path then
+if not path then
     warn("Path creation failed")
     return
 end
@@ -632,18 +633,18 @@ Always clean up paths when done:
 -- On death
 npc.Humanoid.Died:Connect(function()
     if NavPathX then
-        NavPathX.PathDestroy(Path)
+        path:PathDestroy()
         NavPathX = nil
-        Path = nil
+        path = nil
     end
 end)
 
 -- On removal
 npc.AncestryChanged:Connect(function(_, parent)
-    if not parent and NavPathX then
-        NavPathX.PathDestroy(Path)
+    if not parent and path then
+        path:PathDestroy()
         NavPathX = nil
-        Path = nil
+        path = nil
     end
 end)
 ```
@@ -654,12 +655,12 @@ Use pcall for critical operations:
 
 ```lua
 local success, err = pcall(function()
-    NavPathX.Run(Path, target)
+    path:Run(target)
 end)
 
 if not success then
     warn("Pathfinding error:", err)
-    NavPathX.PathStop(Path)
+    path:PathStop()
 end
 ```
 
@@ -702,7 +703,7 @@ task.wait(0.2)  -- Instead of 0.1
 
 4. **Disable visualization**
 ```lua
-local Path = NavPathX.SetSettings(npc, {}, false)
+local path = NavPathX.SetSettings(npc, {}, false)
 ```
 
 ### Optimization Example
@@ -712,18 +713,18 @@ local MAX_NPCS = 20
 local UPDATE_INTERVAL = 0.15
 
 local function optimizedNextbot(npc)
-    local Path = NavPathX.SetSettings(npc, {
+    local path = NavPathX.SetSettings(npc, {
         WaypointSpacing = 6,
         AgentRadius = 2
     }, false)  -- Visualization off
     
     while npc and npc.Parent do
         -- Your pathfinding logic
-        NavPathX.Run(Path, target)
+        path:Run(target)
         task.wait(UPDATE_INTERVAL)
     end
     
-    NavPathX.PathDestroy(Path)
+    path:PathDestroy()
 end
 ```
 
@@ -736,7 +737,7 @@ local function cleanupInactive()
     for i = #NPCManager.ActiveNPCs, 1, -1 do
         local npcData = NPCManager.ActiveNPCs[i]
         if not npcData.Model.Parent then
-            npcData.Path.PathDestroy(npcData.PathSettings)
+            npcData.PathSettings.PathDestroy()
             table.remove(NPCManager.ActiveNPCs, i)
         end
     end
@@ -774,7 +775,7 @@ end
 
 3. Target unreachable
 ```lua
-local result = Path:Run(target)
+local result = path:Run(target)
 if not result then
     warn("No path found to target")
 end
@@ -830,7 +831,7 @@ end
 ```lua
 -- Performance preset
 Settings.TimeVariance = 0.05
-local Path = NavPathX.SetSettings(npc, {
+local path = NavPathX.SetSettings(npc, {
     WaypointSpacing = 8
 }, false)
 task.wait(0.2)  -- In your loop
@@ -842,7 +843,7 @@ task.wait(0.2)  -- In your loop
 
 1. Visualization enabled:
 ```lua
-local Path = NavPathX.SetSettings(npc, {}, true)
+local path = NavPathX.SetSettings(npc, {}, true)
 ```
 
 2. Folder structure exists:
