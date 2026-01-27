@@ -82,10 +82,10 @@ end
 
 local function DestroyVisualWaypoints(Waypoints2)
 	if Waypoints2 then
-		for j, Waypoint2 in ipairs(Waypoints2) do
+		for k, Waypoint2 in ipairs(Waypoints2) do
 			if Waypoint2 and Waypoint2:IsA("BasePart") then
 				Waypoint2:Destroy()
-				Waypoints2[j] = nil
+				Waypoints2[k] = nil
 			end
 		end
 	end
@@ -93,9 +93,9 @@ local function DestroyVisualWaypoints(Waypoints2)
 end
 
 local function GetNonHumanoidWaypoint(self)
-	for k = 2, #self._Waypoints do
-		if (self._Waypoints[k].Position - self._Waypoints[k - 1].Position).Magnitude > 1 then
-			return k
+	for j = 2, #self._Waypoints do
+		if (self._Waypoints[j].Position - self._Waypoints[j - 1].Position).Magnitude > 1 then
+			return j
 		end
 	end
 	return 2
