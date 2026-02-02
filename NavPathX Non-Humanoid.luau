@@ -76,7 +76,7 @@ end
 local function DestroyVisualWaypoints(Waypoints2)
 	if Waypoints2 then
 		for k, Waypoint2 in ipairs(Waypoints2) do
-			if Waypoint2 and Waypoint2:IsA("BasePart") then
+			if Waypoint2 and Waypoint2:IsA("BasePart") and Waypoint2.Name:match("^VisualWaypoint") then
 				Waypoint2:Destroy()
 				Waypoints2[k] = nil
 			end
