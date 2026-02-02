@@ -3,7 +3,7 @@
 </p>
 <h1 align="center">NavPathX</h1>
 
-- A forked and optimized version of the pathfinding tool called [SimplePath](https://github.com/grayzcale/simplepath).
+- A forked and optimized version of the Pathfinding tool called [SimplePath](https://github.com/grayzcale/simplepath).
 - Documentation [here](https://github.com/elcapykkzxd/NavPathX/blob/main/Docs.md)
 ## Credits:
 - [GrayzcaIe](https://github.com/grayzcale)
