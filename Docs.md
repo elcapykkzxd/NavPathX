@@ -56,12 +56,12 @@ Workspace/
 ReplicatedStorage/
 └── VisualWaypoint          (Part - Template for visual waypoints)
 ```
-### Step 3: Configure botPathPoint
+### Step 3: Configure VisualWaypoint
 Create a Part named `VisualWaypoint` in `ReplicatedStorage`:
 
 **Properties:**
 - Shape: Ball or Block
-- Size: Vector3.one * 1 or Vector3.one * 0.3
+- Size: Vector3.one * 0.3 or Vector3.one * 1
 - Transparency: 0 or 0.5
 - CanCollide: false
 - CanTouch: false
@@ -844,3 +844,4 @@ MIT License - See LICENSE file for details
 
 ---
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
