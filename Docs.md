@@ -502,11 +502,8 @@ for _, zombie in pairs(workspace.Zombies:GetChildren()) do
     task.spawn(createZombie, zombie)
 end
 ```
-
 ### Multiple NPCs Management
-
 Managing multiple NPCs efficiently:
-
 ```lua
 local NavPathX = require(game.ServerScriptService.NavPathX)
 
@@ -577,9 +574,7 @@ while true do
     task.wait(0.1)
 end
 ```
-
 ## Visual Waypoints
-
 When visualization is enabled, waypoints appear with different colors:
 
 | Color | Meaning |
@@ -596,11 +591,8 @@ local path = NavPathX.SetSettings(npc, {}, true)
 **Note:** Always disable visualization in production for better performance.
 
 ## Best Practices
-
 ### Proper Initialization
-
 Always check if the path was created successfully:
-
 ```lua
 local path = NavPathX.SetSettings(npc, {})
 
@@ -611,9 +603,7 @@ end
 ```
 
 ### Update Frequency
-
 Balance performance and responsiveness:
-
 ```lua
 -- Fast-moving targets (players)
 task.wait(0.1)
@@ -626,9 +616,7 @@ task.wait(0.2)
 ```
 
 ### Cleanup
-
 Always clean up paths when done:
-
 ```lua
 -- On death
 npc.Humanoid.Died:Connect(function()
@@ -648,11 +636,8 @@ npc.AncestryChanged:Connect(function(_, parent)
     end
 end)
 ```
-
 ### Error Handling
-
 Use pcall for critical operations:
-
 ```lua
 local success, err = pcall(function()
     path:Run(target)
@@ -663,11 +648,8 @@ if not success then
     path:PathStop()
 end
 ```
-
 ### Agent Parameters
-
 Match parameters to NPC size:
-
 ```lua
 -- Small NPC
 AgentRadius = 1
@@ -681,11 +663,8 @@ AgentHeight = 5
 AgentRadius = 4
 AgentHeight = 8
 ```
-
 ## Performance Tips
-
 ### Optimize for Many NPCs
-
 1. **Increase TimeVariance**
 ```lua
 Settings.TimeVariance = 0.05  -- From default 0.01
@@ -695,19 +674,15 @@ Settings.TimeVariance = 0.05  -- From default 0.01
 ```lua
 WaypointSpacing = 6  -- From default 4
 ```
-
 3. **Reduce update frequency**
 ```lua
 task.wait(0.2)  -- Instead of 0.1
 ```
-
 4. **Disable visualization**
 ```lua
 local path = NavPathX.SetSettings(npc, {}, false)
 ```
-
 ### Optimization Example
-
 ```lua
 local MAX_NPCS = 20
 local UPDATE_INTERVAL = 0.15
@@ -729,7 +704,6 @@ end
 ```
 
 ### Memory Management
-
 Clean up unused NPCs:
 
 ```lua
@@ -751,9 +725,7 @@ end
 ```
 
 ## Troubleshooting
-
 ### NPC Won't Move
-
 **Possible causes:**
 
 1. Missing Humanoid
@@ -782,7 +754,6 @@ end
 ```
 
 ### NPC Gets Stuck
-
 **Solutions:**
 
 1. Increase ComparisonChecks for more aggressive unstucking:
@@ -802,7 +773,6 @@ AgentRadius = 2.5  -- Increase if NPC is larger
 ```
 
 ### Pathfinding Fails
-
 **Check these:**
 
 1. Obstacles blocking path
@@ -819,7 +789,6 @@ end
 ```
 
 ### Performance Issues
-
 **Solutions:**
 
 1. Reduce number of active NPCs
@@ -838,7 +807,6 @@ task.wait(0.2)  -- In your loop
 ```
 
 ### Visual Waypoints Not Showing
-
 **Check:**
 
 1. Visualization enabled:
@@ -855,7 +823,6 @@ ServerScriptService/botsCoreSSS/botsPathPoints/botPathPoint
 3. botPathPoint part properly configured
 
 ## FAQ
-
 **Q: Can I use this with non-humanoid NPCs?**
 
 A: NavPathX requires a Humanoid component. For non-humanoid movement, you'll need to modify the module or use a different approach.
@@ -903,20 +870,22 @@ A: NavPathX is standalone and doesn't require other modules. Using multiple path
 A: Check the main README.md for contribution guidelines, or open an issue on GitHub.
 
 ---
+## Credits:
+- [GrayzcaIe](https://github.com/grayzcale)
+  - SimplePath Creator.
 
-## Credits
+- [elcapykkzxd](https://github.com/elcapykkzxd)
+  - NavPathX Owner & Creator.
 
-- **[GrayzcaIe](https://github.com/grayzcale)** - SimplePath Creator
-- **[elcapykkzxd](https://github.com/elcapykkzxd)** - NavPathX Owner
-- **[Asdfyc123](https://www.roblox.com/users/3669138152/profile)** - NavPathX Contributor
-- **[boydev1444](https://github.com/boydev-1444)** - NavPathX Contributor
+- [Asdfyc123](https://www.roblox.com/users/3669138152/profile)
+  - NavPathX Contributor.
+
+- [boydev1444](https://github.com/boydev-1444)
+  - NavPathX Contributor.
+  - Teached how to make smart Pathfinding systems.
 
 ## License
-
 MIT License - See LICENSE file for details
 
 ---
-
-
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
-
