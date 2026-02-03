@@ -63,11 +63,12 @@ Create a Part named `VisualWaypoint` in `ReplicatedStorage`:
 - Shape: Ball or Block
 - Size: Vector3.one * 0.3 or Vector3.one * 1
 - Transparency: 0 or 0.5
+- CastShadow: false
 - CanCollide: false
 - CanTouch: false
 - CanQuery: false
-- AudioCanCollide: false (optional)
-- EnableFluidForces: false (optional)
+- AudioCanCollide: false
+- EnableFluidForces: false
 - Anchored: true
 
 This part will be used as a template for visual waypoints.
@@ -844,4 +845,5 @@ MIT License - See LICENSE file for details
 
 ---
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
