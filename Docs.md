@@ -138,7 +138,7 @@ Computes and executes pathfinding to the specified target.
 
 **Syntax:**
 ```lua
-local result = path:Run(target)
+local result = path:Run(target.Position)
 ```
 
 **Parameters:**
@@ -845,3 +845,4 @@ MIT License - See LICENSE file for details
 
 ---
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
