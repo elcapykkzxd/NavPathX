@@ -1,5 +1,4 @@
 # NavPathX Documentation
-
 <p align="center">
   <img src="./banner.jpg" alt="NavPathX banner" width="500px">
 </p>
@@ -7,7 +6,6 @@
 Complete documentation for NavPathX - An optimized Pathfinding module for Roblox NPCs and Nextbots.
 
 ## Table of Contents
-
 - [Overview](#overview)
 - [Installation](#installation)
 - [Quick Start](#quick-start)
@@ -31,11 +29,9 @@ Complete documentation for NavPathX - An optimized Pathfinding module for Roblox
 - [FAQ](#faq)
 
 ## Overview
-
 NavPathX is a powerful fork of SimplePath that provides enhanced pathfinding capabilities specifically designed for Roblox NPCs and Nextbots. 
 
 ### Key Features
-
 - **Smart Pathfinding** - Intelligent obstacle avoidance and path computation
 - **Automatic Jumping** - NPCs automatically jump over obstacles when needed
 - **Visual Debugging** - See waypoints in real-time during development
@@ -45,15 +41,11 @@ NavPathX is a powerful fork of SimplePath that provides enhanced pathfinding cap
 - **Highly Configurable** - Extensive customization options
 
 ## Installation
-
 ### Step 1: Download the Module
-
 Download or copy the `NavPathX.luau` ModuleScript from this repository.
 
 ### Step 2: Setup Folder Structure
-
 Place the module in your game and create the required folder structure:
-
 ```
 ServerScriptService/
 └── NavPathX                (ModuleScript - The main module)
@@ -64,9 +56,7 @@ Workspace/
 ReplicatedStorage/
 └── VisualWaypoint          (Part - Template for visual waypoints)
 ```
-
 ### Step 3: Configure botPathPoint
-
 Create a Part named `VisualWaypoint` in `ReplicatedStorage`:
 
 **Properties:**
@@ -83,9 +73,7 @@ Create a Part named `VisualWaypoint` in `ReplicatedStorage`:
 This part will be used as a template for visual waypoints.
 
 ## Quick Start
-
 Here's a minimal example to get you started:
-
 ```lua
 local NavPathX = require(game.ServerScriptService.NavPathX)
 
@@ -102,9 +90,7 @@ end
 ```
 
 ## API Reference
-
 ### NavPathX.SetSettings()
-
 Creates and initializes a new pathfinding instance for an NPC.
 
 **Syntax:**
@@ -113,7 +99,6 @@ local path = NavPathX.SetSettings(agent, agentParameters, visualize)
 ```
 
 **Parameters:**
-
 | Parameter | Type | Required | Default | Description |
 |-----------|------|----------|---------|-------------|
 | `agent` | Model | Yes | - | The NPC model. Must contain a Humanoid and PrimaryPart/HumanoidRootPart |
@@ -148,7 +133,6 @@ end
 ```
 
 ### path:Run()
-
 Computes and executes pathfinding to the specified target.
 
 **Syntax:**
@@ -157,7 +141,6 @@ local result = path:Run(target)
 ```
 
 **Parameters:**
-
 | Parameter | Type | Required | Description |
 |-----------|------|----------|-------------|
 | `target` | Vector3 or BasePart | Yes | Destination position or part to pathfind to |
@@ -188,7 +171,6 @@ end
 ```
 
 ### path:PathStop()
-
 Stops the current pathfinding operation and clears all visual waypoints.
 
 **Syntax:**
@@ -211,7 +193,6 @@ end)
 ```
 
 ### path:PathDestroy()
-
 Completely destroys the path instance and frees all resources. Call this when removing the NPC or when no longer needed.
 
 **Syntax:**
@@ -239,9 +220,7 @@ end)
 ```
 
 ## Configuration
-
 ### Control Panel Settings
-
 Located at the top of the module. Modify these for global behavior:
 
 ```lua
@@ -273,9 +252,7 @@ Settings.CanJump = false
 ```
 
 ### Agent Parameters
-
 Customize individual NPC pathfinding behavior:
-
 ```lua
 local agentParameters = {
     AgentRadius = 2,
@@ -288,7 +265,6 @@ local agentParameters = {
 ```
 
 **Parameters:**
-
 | Parameter | Type | Default | Description |
 |-----------|------|---------|-------------|
 | `AgentRadius` | number | 2 | Collision radius in studs. Should match NPC width |
@@ -299,7 +275,6 @@ local agentParameters = {
 | `Costs` | table | `{}` | Material traversal costs (see below) |
 
 **Material Costs:**
-
 Control how NPCs navigate different materials:
 
 ```lua
@@ -314,11 +289,8 @@ Costs = {
 Available materials: Water, Mud, Grass, Concrete, Sand, Snow, Ice, etc. See [Roblox Materials](https://create.roblox.com/docs/reference/engine/enums/Material) for the complete list.
 
 ## Usage Examples
-
 ### Basic Nextbot
-
 Simple chasing AI that follows the nearest player:
-
 ```lua
 local NavPathX = require(game.ServerScriptService.NavPathX)
 
@@ -364,11 +336,8 @@ end
 local zombie = workspace.Zombie
 createNextbot(zombie)
 ```
-
 ### Patrolling NPC
-
 Guard that patrols between waypoints:
-
 ```lua
 local NavPathX = require(game.ServerScriptService.NavPathX)
 
@@ -416,11 +385,8 @@ local guard = workspace.Guard
 local patrolPoints = workspace.PatrolPoints
 createPatrolNPC(guard, patrolPoints)
 ```
-
 ### Advanced Zombie AI
-
 Zombie with detection range and attack behavior:
-
 ```lua
 local NavPathX = require(game.ServerScriptService.NavPathX)
 
@@ -601,7 +567,6 @@ if not path then
     return
 end
 ```
-
 ### Update Frequency
 Balance performance and responsiveness:
 ```lua
@@ -614,7 +579,6 @@ task.wait(0.3)
 -- Patrol routes
 task.wait(0.2)
 ```
-
 ### Cleanup
 Always clean up paths when done:
 ```lua
@@ -702,10 +666,8 @@ local function optimizedNextbot(npc)
     path:PathDestroy()
 end
 ```
-
 ### Memory Management
 Clean up unused NPCs:
-
 ```lua
 local function cleanupInactive()
     for i = #NPCManager.ActiveNPCs, 1, -1 do
@@ -723,7 +685,6 @@ while true do
     cleanupInactive()
 end
 ```
-
 ## Troubleshooting
 ### NPC Won't Move
 **Possible causes:**
@@ -752,7 +713,6 @@ if not result then
     warn("No path found to target")
 end
 ```
-
 ### NPC Gets Stuck
 **Solutions:**
 
@@ -771,7 +731,6 @@ AgentCanJump = true
 ```lua
 AgentRadius = 2.5  -- Increase if NPC is larger
 ```
-
 ### Pathfinding Fails
 **Check these:**
 
@@ -779,7 +738,6 @@ AgentRadius = 2.5  -- Increase if NPC is larger
 2. Target in unanchored/moving parts
 3. Agent parameters too restrictive
 4. Invalid target (nil, destroyed, etc.)
-
 ```lua
 -- Validation
 if not target or not target:IsDescendantOf(workspace) then
@@ -787,7 +745,6 @@ if not target or not target:IsDescendantOf(workspace) then
     return
 end
 ```
-
 ### Performance Issues
 **Solutions:**
 
@@ -796,7 +753,6 @@ end
 3. Lower update frequency
 4. Disable visualization
 5. Use larger WaypointSpacing
-
 ```lua
 -- Performance preset
 Settings.TimeVariance = 0.05
@@ -805,7 +761,6 @@ local path = NavPathX.SetSettings(npc, {
 }, false)
 task.wait(0.2)  -- In your loop
 ```
-
 ### Visual Waypoints Not Showing
 **Check:**
 
