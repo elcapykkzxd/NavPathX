@@ -17,7 +17,7 @@
 
 - [boydev1444](https://github.com/boydev-1444)
   - NavPathX Contributor.
-  - Teached how to make smart pathfinding systems.
+  - Teached how to make smart Pathfinding systems.
 
 ## Initialization
 - As a "fork" of SimplePath, the function names got renamed.
