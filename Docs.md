@@ -157,12 +157,12 @@ local result = path:Run(target)
 local result = path:Run(Vector3.new(100, 5, 100))
 
 -- Pathfind to a part
-path:Run(workspace.Player.HumanoidRootPart)
+path:Run(workspace.Player.HumanoidRootPart.Position)
 
 -- Pathfind to player
 local player = game.Players:GetChildren()[1]
 if player and player.Character then
-    path:Run(player.Character.HumanoidRootPart)
+    path:Run(player.Character.HumanoidRootPart.Position)
 end
 
 -- Check result
@@ -324,7 +324,7 @@ local function createNextbot(npc)
         end
         
         if nearestPlayer and nearestPlayer.Character then
-            path:Run(nearestPlayer.Character.HumanoidRootPart)
+            path:Run(nearestPlayer.Character.HumanoidRootPart.Position)
         end
         
         task.wait(0.1)
@@ -452,7 +452,7 @@ local function createZombie(zombie)
                 path:PathStop()
                 attack(target)
             else
-                path:Run(target.Character.HumanoidRootPart)
+                path:Run(target.Character.HumanoidRootPart.Position)
             end
         else
             path:PathStop()
@@ -487,7 +487,7 @@ function NPCManager:CreateNPC(npcModel, config)
     
     local npcData = {
         Model = npcModel,
-        PathSettings = Path,
+        PathSettings = path,
         Target = nil,
         Active = true
     }
@@ -504,7 +504,7 @@ end
 
 function NPCManager:RemoveNPC(npcData)
     npcData.Active = false
-    npcData.PathSettings.PathDestroy()
+    npcData.PathSettings:PathDestroy()
     
     local index = table.find(self.ActiveNPCs, npcData)
     if index then
@@ -515,7 +515,7 @@ end
 function NPCManager:UpdateAll()
     for _, npcData in pairs(self.ActiveNPCs) do
         if npcData.Active and npcData.Target then
-            npcData.PathSettings.Run(npcData.Target)
+            npcData.PathSettings:Run(npcData.Target.Position)
         end
     end
 end
@@ -605,7 +605,7 @@ end)
 Use pcall for critical operations:
 ```lua
 local success, err = pcall(function()
-    path:Run(target)
+    path:Run(target.Position)
 end)
 
 if not success then
@@ -660,7 +660,7 @@ local function optimizedNextbot(npc)
     
     while npc and npc.Parent do
         -- Your pathfinding logic
-        path:Run(target)
+        path:Run(target.Position)
         task.wait(UPDATE_INTERVAL)
     end
     
@@ -674,7 +674,7 @@ local function cleanupInactive()
     for i = #NPCManager.ActiveNPCs, 1, -1 do
         local npcData = NPCManager.ActiveNPCs[i]
         if not npcData.Model.Parent then
-            npcData.PathSettings.PathDestroy()
+            npcData.PathSettings:PathDestroy()
             table.remove(NPCManager.ActiveNPCs, i)
         end
     end
@@ -772,8 +772,8 @@ local path = NavPathX.SetSettings(npc, {}, true)
 
 2. Folder structure exists:
 ```
-workspace/botPathPoints
-ServerScriptService/botsCoreSSS/botsPathPoints/botPathPoint
+workspace/PathWaypoints
+ReplicatedStorage/VisualWaypoint
 ```
 
 3. botPathPoint part properly configured
@@ -845,5 +845,3 @@ MIT License - See LICENSE file for details
 
 ---
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
-
-
