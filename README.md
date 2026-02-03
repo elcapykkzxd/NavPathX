@@ -35,7 +35,6 @@ local path = NavPathX.SetSettings(
    path:PathStop: function, -- Stops the current Pathfinding.
    path:Run: function, -- Begins Pathfinding to goal.
 }>
-
 ```
 ## Available on Roblox Creator Store:
 - [**NavPathX - Smart Pathfinding Module**](https://create.roblox.com/store/asset/105782363313225/NavPathX-Smart-Pathfinding-Module)
