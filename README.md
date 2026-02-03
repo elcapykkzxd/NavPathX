@@ -23,6 +23,7 @@
 ## Initialization
 - As a "fork" of SimplePath, the function names got renamed.
 - Initialization is below this message.
+
 ```lua
 local NavPathX = require("@self/NavPathX") -- Or "NavPathX.lua(u)?"
 local path = NavPathX.SetSettings( 
