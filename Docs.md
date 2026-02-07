@@ -54,10 +54,12 @@ Workspace/
 └── PathWaypoints           (Folder - Contains visual waypoints during runtime)
 
 ReplicatedStorage/
-└── VisualWaypoint          (Part - Template for visual waypoints)
+└── WaypointTemplate/
+    └── VisualWaypoint      (Part - Template for visual waypoints)
 ```
+
 ### Step 3: Configure VisualWaypoint
-Create a Part named `VisualWaypoint` in `ReplicatedStorage`:
+Create a Part named `VisualWaypoint` in `WaypointTemplate` inside of `ReplicatedStorage`:
 
 **Properties:**
 - Shape: Ball or Block
@@ -845,4 +847,5 @@ MIT License - See LICENSE file for details
 
 ---
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
