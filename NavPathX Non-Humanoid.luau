@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Non-Humanoid Edition
-Version: 1.1.1 | Last Updated: 2026-02-07
+Version: 1.1.1 | Last Updated: 2026-02-16
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -77,7 +77,7 @@ end
 local function DestroyVisualWaypoints(Waypoints2)
 	if Waypoints2 then
 		for k, Waypoint2 in ipairs(Waypoints2) do
-			if Waypoint2:IsA("BasePart") and Waypoint2.Name:match("^VisualWaypoint") then
+			if Waypoint2:IsA("BasePart") then
 				Waypoint2:Destroy()
 				Waypoints2[k] = nil
 			end
