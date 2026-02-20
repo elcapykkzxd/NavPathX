@@ -18,12 +18,10 @@ Licenses:
 Inspirations:
   - @GrayzcaIe (SimplePath Creator)
   - @xXPRO2929_XDXx (Inspiration/Helper)
-  - @Dragoteryx (DrGBase Creator)
 
 References:
   - https://github.com/elcapykkzxd/NavPathX
   - https://grayzcale.github.io/simplepath/ | https://github.com/grayzcale/simplepath
-  - https://github.com/Dragoteryx/drgbase
 =======================================================================
 ]]--
 
@@ -326,7 +324,6 @@ function PathConfig:Run(target: Goal?)
 		self._CurrentWaypoint = GetNonHumanoidWaypoint(self)
 		MoveToFinish(self, true)
 	end
-	task.wait()
-	return self._target
+	return true
 end
 return PathConfig
