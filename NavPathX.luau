@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Standard Edition
-Version: 1.1.1 | Last Updated: 2026-02-07
+Version: 1.2.2 | Last Updated: 2026-02-22
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -36,18 +36,18 @@ local PathConfig = {}
 PathConfig.__index = PathConfig
 local scriptName = script.Name
 local function Log(Level, Msg, Condition)
-    local Prefix = `[{scriptName} {Level}]: `
-    if Level == "info" then
-        print(Prefix .. Msg)
-    elseif Level == "warn" then
-        warn(Prefix .. Msg)
-    elseif Level == "error" then
-        error(Prefix .. Msg)
+	local Prefix = `[{scriptName} {Level}]: `
+	if Level == "info" then
+		print(Prefix .. Msg)
+	elseif Level == "warn" then
+		warn(Prefix .. Msg)
+	elseif Level == "error" then
+		error(Prefix .. Msg)
 	elseif Level == "assert" then
-        assert(Condition, Prefix .. Msg)
-    else
+		assert(Condition, Prefix .. Msg)
+	else
 		print(`[{scriptName} info]: ` .. Msg)
-    end
+	end
 end
 
 local PathWaypoints = workspace.PathWaypoints
@@ -76,7 +76,7 @@ end
 local function DestroyVisualWaypoints(Waypoints2)
 	if Waypoints2 then
 		for i, Waypoint2 in ipairs(Waypoints2) do
-			if Waypoint2:IsA("BasePart") and Waypoint2.Name:match("^VisualWaypoint") then
+			if Waypoint2:IsA("BasePart") and Waypoint2:IsDescendantOf(PathWaypoints) then
 				Waypoint2:Destroy()
 				Waypoints2[i] = nil
 			end
@@ -105,12 +105,13 @@ local function DisconnectMoveConnection(self)
 end
 
 local function SetJumpState(self)
-	if self._Humanoid:GetState() ~= Enum.HumanoidStateType.Jumping and self._Humanoid:GetState() ~= Enum.HumanoidStateType.Freefall then
-		self._Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+	local State = self._Humanoid:GetState()
+	if State ~= Enum.HumanoidStateType.Jumping and State ~= Enum.HumanoidStateType.Freefall then
+		self._Humanoid.Jump = true
 	end
 end
 
-local function MoveSelf(self)
+local function MoveAgent(self)
 	if Settings.CanJump and (self._Waypoints[self._CurrentWaypoint].Action == Enum.PathWaypointAction.Jump or self._Waypoints[self._CurrentWaypoint].Label == "Jump" or not self._target) then
 		SetJumpState(self)
 	end
@@ -131,7 +132,7 @@ local function MoveToFinish(self, Reached)
 	end
 	if Reached and self._CurrentWaypoint + 1 <= #self._Waypoints then
 		self._CurrentWaypoint += 1
-		MoveSelf(self)
+		MoveAgent(self)
 	else
 		DisconnectMoveConnection(self)
 		self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
@@ -160,27 +161,18 @@ end
 
 local PathfindingService = game:GetService("PathfindingService")
 function PathConfig.SetSettings(agent, agentParameters, Visualize)
+	Log("assert", debug.traceback(`agent must be a Model`), agent and agent:IsA("Model") and agent.PrimaryPart)
 	local Humanoid = agent:FindFirstChildOfClass("Humanoid")
 	Log("assert", debug.traceback(`agent must have a valid Humanoid`), Humanoid)
 	local PrimaryPart = (agent.PrimaryPart) or (Humanoid.RootPart) or (agent:FindFirstChild("HumanoidRootPart"))
-	local WarnMessage = ""
-	if not agent or not agent:IsA("Model") then
-		WarnMessage ..= `agent is nil or not a Model (agent type: {typeof(agent)})`
-	end
-	if not PrimaryPart or not PrimaryPart:IsA("BasePart") then
-		WarnMessage ..= `PrimaryPart is nil or not a BasePart (PrimaryPart type: {typeof(PrimaryPart)})`
-	end
-	if not Humanoid then
-		WarnMessage ..= `Humanoid is nil`
-	elseif Humanoid:GetState() == Enum.HumanoidStateType.Dead then
-		WarnMessage ..= `Humanoid is dead (Humanoid State: {Humanoid:GetState().Name})`
-	end
-	if WarnMessage ~= "" then
-		Log("warn", debug.traceback(`{WarnMessage}`))
+	Log("assert", debug.traceback(`agent must have a valid PrimaryPart`), PrimaryPart)
+	local State2 = Humanoid:GetState()
+	if State2 == Enum.HumanoidStateType.Dead then
+		Log("warn", `Humanoid is dead. (State: {State2.Name})`)
 		return nil
 	end
-	if type(agentParameters) ~= "table" then
-		Log("warn", debug.traceback(`Invalid agentParameters: expected a table (type: {typeof(agentParameters)})`))
+	if agentParameters and type(agentParameters) ~= "table" then
+		Log("warn", `Invalid agentParameters: table expected, got {typeof(agentParameters)}`)
 	end
 	local Path: Path = PathfindingService:CreatePath(agentParameters)
 	local self = setmetatable({
@@ -203,27 +195,29 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 	}, PathConfig)
 	self._Path.Blocked:Connect(function(blockedWaypointIdx)
 		if type(blockedWaypointIdx) ~= "number" then
-			Log("warn", debug.traceback(`blockedWaypointIdx is not a number (type: {typeof(blockedWaypointIdx)})`))
+			Log("warn", `blockedWaypointIdx is not a number (type: {typeof(blockedWaypointIdx)})`)
 			return
 		end
 		if self._CurrentWaypoint <= blockedWaypointIdx and Settings.CanJump then
 			if tick() - (self._lastMovedTime or 0) > 0.5 then
 				SetJumpState(self)
+				local State3 = self._Humanoid:GetState()
+				if State3 ~= Enum.HumanoidStateType.Jumping and State3 ~= Enum.HumanoidStateType.Freefall then
+					self:Run(self._target)
+				end
 			end
 		end
 	end)
 	if Humanoid then
 		self._DeathConnection = Humanoid.Died:Connect(function()
 			if self._Visualize and self._VisualWaypoints then
-				for _ = 0, 5 do
-					task.wait(0.05)
-					DestroyVisualWaypoints(self._VisualWaypoints)
-					if self._DeathConnection and self._DeathConnection.Connected then
-						pcall(self._DeathConnection.Disconnect, self._DeathConnection)
-						self._DeathConnection = nil
-					end
-					PathConfig:PathDestroy()
+				if self._DeathConnection and self._DeathConnection.Connected then
+					pcall(self._DeathConnection.Disconnect, self._DeathConnection)
+					self._DeathConnection = nil
 				end
+				task.wait(0.05)
+				DestroyVisualWaypoints(self._VisualWaypoints)
+				self:PathDestroy()
 			end
 		end)
 	end
@@ -232,7 +226,7 @@ end
 
 local function SafeDestroyVisualWaypoints(self)
 	if rawget(self, "_VisualWaypoints") == nil then
-		Log("warn", debug.traceback(`Attempt to destroy visual waypoints: _VisualWaypoints is {typeof(self._VisualWaypoints)}`))
+		Log("warn", `Attempt to destroy visual waypoints: _VisualWaypoints is {typeof(self._VisualWaypoints)}`)
 		rawset(self, "_VisualWaypoints", {})
 		return
 	end
@@ -246,13 +240,17 @@ function PathConfig:PathDestroy()
 	if not getmetatable(self) then
 		return
 	end
+	DisconnectMoveConnection(self)
 	SafeDestroyVisualWaypoints(self)
 	if rawget(self, "_Path") and self._Path then
 		pcall(self._Path.Destroy, self._Path)
 		self._Path = nil
 	end
-	table.clear(self)
-	setmetatable(self, nil)
+	self._Humanoid = nil
+	self._PrimaryPart = nil
+	self._agent = nil
+	self._Waypoints = nil
+	self._target = nil
 end
 
 function PathConfig:PathStop()
@@ -260,7 +258,7 @@ function PathConfig:PathStop()
 		return
 	end
 	if rawget(self, "_VisualWaypoints") == nil then
-		Log("warn", debug.traceback(`Attempt to call PathConfig:PathStop(): _VisualWaypoints is {typeof(self._VisualWaypoints)}`))
+		Log("warn", `Attempt to call PathConfig:PathStop(): _VisualWaypoints is {typeof(self._VisualWaypoints)}`)
 		rawset(self, "_VisualWaypoints", {})
 	end
 	DisconnectMoveConnection(self)
@@ -269,6 +267,9 @@ end
 
 export type Goal = Vector3 | BasePart
 function PathConfig:Run(target: Goal?)
+	if not getmetatable(self) then
+		return nil
+	end
 	if self._agent and not self._agent:IsDescendantOf(workspace) then
 		DestroyVisualWaypoints(self._VisualWaypoints)
 		self._Visualize = false
@@ -280,15 +281,15 @@ function PathConfig:Run(target: Goal?)
 		return
 	end
 	if not (target and (typeof(target) == "Vector3" or target:IsA("BasePart"))) then
-		Log("warn", debug.traceback(`target must be a valid Vector3 or BasePart.`))
+		Log("warn", `target must be a valid Vector3 or BasePart.`)
 		return nil
 	end
-	--[[if os.clock() - self._Time <= Settings.TimeVariance and self._Humanoid then
+	--[[if os.clock() - self._Time <= self._Settings.TimeVariance and self._PrimaryPart then
 		task.wait(os.clock() - self._Time)
 		return false
-	elseif self._Humanoid then
+	elseif self._PrimaryPart then
 		self._Time = os.clock()
-	end]] -- Enable this if you feel your NPC too laggy (you need Enable _Time = 0 in PathConfig.SetSettings(...) function)
+	end]] -- Uncomment this if you feel your NPC too laggy (Also you need uncomment _Time in PathConfig.SetSettings() function)
 	local PathComputed, _ = pcall(self._Path.ComputeAsync, self._Path, self._PrimaryPart.Position, target)
 	if not PathComputed or self._Path.Status == Enum.PathStatus.NoPath or #self._Path:GetWaypoints() < 2 then
 		self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
