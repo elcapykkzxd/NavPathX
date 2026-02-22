@@ -51,7 +51,7 @@ ServerScriptService/
 └── NavPathX                (ModuleScript - The main module)
 
 Workspace/
-└── PathWaypoints           (Folder - Contains visual waypoints during runtime)
+└── PathWaypoints           (Folder - Contains visual waypoints during runtime, if you use Non-Humanoid edition dont use any workspace folder or create a new personalized one in your AI script)
 
 ReplicatedStorage/
 └── WaypointTemplate/
@@ -98,7 +98,7 @@ Creates and initializes a new pathfinding instance for an NPC.
 
 **Syntax:**
 ```lua
-local path = NavPathX.SetSettings(agent, agentParameters, visualize)
+local path = NavPathX.SetSettings(agent, agentParameters, Visualize, CustomFolder)
 ```
 
 **Parameters:**
@@ -106,7 +106,8 @@ local path = NavPathX.SetSettings(agent, agentParameters, visualize)
 |-----------|------|----------|---------|-------------|
 | `agent` | Model | Yes | - | The NPC model. Must contain a Humanoid and PrimaryPart/HumanoidRootPart |
 | `agentParameters` | table | No | `{}` | Pathfinding configuration table (see [Agent Parameters](#agent-parameters)) |
-| `visualize` | boolean | No | `false` | Enable visual waypoint debugging |
+| `Visualize` | boolean | No | `false` | Enable visual waypoint debugging |
+| `CustomFolder` | folder | No | `folder` | Creates new folder per NPC in Non-Humanoid edition |
 
 **Returns:**
 - `Path` object if successful
@@ -847,5 +848,6 @@ MIT License - See LICENSE file for details
 
 ---
 For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPath-X)
+
 
 
