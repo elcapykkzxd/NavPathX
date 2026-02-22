@@ -6,7 +6,7 @@ Version: 1.2.2 | Last Updated: 2026-02-22
 Authors:
   - @Papisteve79 (Lead Developer)
   - @Asdfyc123 (Helper)
-  - @xXPRO2929_XDXx (Inspiration/Helper)
+  - @xXPRO2929_XDXx (Helper/Inspiration)
 
 Open-Source Helpers:
   - @GrayzcaIe (SimplePath Creator)
