@@ -53,7 +53,7 @@ local function CreateVisualWaypoints(Waypoints, ParentFolder)
 		VisualWaypointClone.Name = tostring(i)
 		VisualWaypointClone.Position = Waypoint.Position
 		VisualWaypointClone.Locked = true
-		VisualWaypointClone.Transparency = 1
+		VisualWaypointClone.Transparency = 0
 		VisualWaypointClone.Color = (Waypoint == Waypoints[#Waypoints] and Color3.fromRGB(255, 0, 0)) or (Waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(112, 255, 172)) or (Waypoint.Action == Enum.PathWaypointAction.Walk and Color3.fromRGB(255, 255, 255))
 		VisualWaypointClone.Parent = ParentFolder
 		table.insert(VisualWaypoints, VisualWaypointClone)
