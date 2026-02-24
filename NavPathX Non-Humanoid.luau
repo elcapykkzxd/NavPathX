@@ -112,9 +112,7 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize, CustomFolder)
 			Log("warn", `blockedWaypointIdx is not a number (type: {typeof(blockedWaypointIdx)})`)
 			return
 		end
-		if self._target then
-			self:Run(self._target)
-		end
+		self:Run(self._target)
 	end)
 	return self
 end
