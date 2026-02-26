@@ -319,7 +319,9 @@ function PathConfig:Run(target: Goal?)
 	if self._PrimaryPart then
 		MoveToFinish(self, true)
 	end
-	if #self._Waypoints == 2 then
+	if self._Humanoid then
+		MoveAgent(self)
+	elseif #self._Waypoints == 2 then
 		self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
 	else
 		self._CurrentWaypoint = GetNonHumanoidWaypoint(self)
