@@ -35,11 +35,11 @@ local function Log(Level, Msg, Condition)
 	elseif Level == "warn" then
 		warn(Prefix .. Msg)
 	elseif Level == "error" then
-		error(Prefix .. Msg)
+		error(Prefix .. Msg, 2)
 	elseif Level == "assert" then
 		assert(Condition, Prefix .. Msg)
 	else
-		print(`[{scriptName} info]: ` .. Msg)
+		print(`[{scriptName} info]: {Msg}`)
 	end
 end
 
