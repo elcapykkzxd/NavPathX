@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Non-Humanoid Edition
-Version: 1.2.2 | Last Updated: 2026-02-22
+Version: 1.2.2 | Last Updated: 2026-03-04
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -105,9 +105,10 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize, CustomFolder)
 		_OriginalVisualize = Visualize or false,
 		_VisualWaypoints = {},
 		_CustomFolder = NewFolder,
-		--_Time = 0
+		--_Time = 0,
+		_BlockedConnection = nil
 	}, PathConfig)
-	self._Path.Blocked:Connect(function(blockedWaypointIdx)
+	self._BlockedConnection = self._Path.Blocked:Connect(function(blockedWaypointIdx)
 		if type(blockedWaypointIdx) ~= "number" then
 			Log("warn", `blockedWaypointIdx is not a number (type: {typeof(blockedWaypointIdx)})`)
 			return
@@ -137,6 +138,10 @@ function PathConfig:PathDestroy()
 	if rawget(self, "_Path") and self._Path then
 		pcall(self._Path.Destroy, self._Path)
 		self._Path = nil
+	end
+	if self._BlockedConnection and self._BlockedConnection.Connected then
+		self._BlockedConnection:Disconnect()
+		self._BlockedConnection = nil
 	end
 	if rawget(self, "_CustomFolder") and self._CustomFolder and self._CustomFolder.Parent then
 		pcall(self._CustomFolder.Destroy, self._CustomFolder)
