@@ -192,7 +192,7 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 		_last = Vector3.new(),
 		_count = 0,
 		_BlockedConnection = nil,
-		_DeathConnection = nil,
+		_DeathConnection = nil
 	}, PathConfig)
 	self._BlockedConnection = self._Path.Blocked:Connect(function(blockedWaypointIdx)
 		if type(blockedWaypointIdx) ~= "number" then
