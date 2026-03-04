@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Standard Edition
-Version: 1.2.2 | Last Updated: 2026-02-22
+Version: 1.2.2 | Last Updated: 2026-03-04
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -99,7 +99,7 @@ local function DisconnectMoveConnection(self)
 		return
 	end
 	if self._MoveConnection and self._MoveConnection.Connected then
-		pcall(self._MoveConnection.Disconnect, self._MoveConnection)
+		self._MoveConnection:Disconnect()
 		self._MoveConnection = nil
 	end
 end
@@ -191,9 +191,10 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 		--_Time = 0,
 		_last = Vector3.new(),
 		_count = 0,
-		_DeathConnection = nil
+		_BlockedConnection = nil,
+		_DeathConnection = nil,
 	}, PathConfig)
-	self._Path.Blocked:Connect(function(blockedWaypointIdx)
+	self._BlockedConnection = self._Path.Blocked:Connect(function(blockedWaypointIdx)
 		if type(blockedWaypointIdx) ~= "number" then
 			Log("warn", `blockedWaypointIdx is not a number (type: {typeof(blockedWaypointIdx)})`)
 			return
@@ -212,7 +213,7 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 		self._DeathConnection = Humanoid.Died:Connect(function()
 			if self._Visualize and self._VisualWaypoints then
 				if self._DeathConnection and self._DeathConnection.Connected then
-					pcall(self._DeathConnection.Disconnect, self._DeathConnection)
+					self._DeathConnection:Disconnect()
 					self._DeathConnection = nil
 				end
 				task.wait(0.05)
@@ -245,6 +246,10 @@ function PathConfig:PathDestroy()
 	if rawget(self, "_Path") and self._Path then
 		pcall(self._Path.Destroy, self._Path)
 		self._Path = nil
+	end
+	if self._BlockedConnection and self._BlockedConnection.Connected then
+		self._BlockedConnection:Disconnect()
+		self._BlockedConnection = nil
 	end
 	self._Humanoid = nil
 	self._PrimaryPart = nil
