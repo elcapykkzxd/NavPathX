@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Standard Edition
-Version: 1.2.2 | Last Updated: 2026-03-04
+Version: 1.2.2 | Last Updated: 2026-03-05
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -61,7 +61,7 @@ local function CreateVisualWaypoints(Waypoints)
 		VisualWaypointClone.Position = Waypoint.Position
 		VisualWaypointClone.Locked = true
 		VisualWaypointClone.Transparency = 0
-		VisualWaypointClone.Color = (Waypoint == Waypoints[#Waypoints] and Color3.fromRGB(255, 0, 0)) or (Waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(112, 255, 172)) or (Waypoint.Action == Enum.PathWaypointAction.Walk and Color3.fromRGB(255, 255, 255))
+		VisualWaypointClone.Color = (Waypoint == Waypoints[#Waypoints] and Color3.new(1, 0, 0)) or (Waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(112, 255, 172)) or (Waypoint.Action == Enum.PathWaypointAction.Walk and Color3.new(1, 1, 1))
 		VisualWaypointClone.Parent = PathWaypoints
 		if VisualWaypointClone.Transparency == 1 then
 			VisualWaypointClone:Destroy()
