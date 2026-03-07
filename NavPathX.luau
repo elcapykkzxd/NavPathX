@@ -211,11 +211,11 @@ function PathConfig.SetSettings(agent, agentParameters, Visualize)
 	end)
 	if Humanoid then
 		self._DeathConnection = Humanoid.Died:Connect(function()
+			if self._DeathConnection and self._DeathConnection.Connected then
+				self._DeathConnection:Disconnect()
+				self._DeathConnection = nil
+			end
 			if self._Visualize and self._VisualWaypoints then
-				if self._DeathConnection and self._DeathConnection.Connected then
-					self._DeathConnection:Disconnect()
-					self._DeathConnection = nil
-				end
 				task.wait(0.05)
 				DestroyVisualWaypoints(self._VisualWaypoints)
 				self:PathDestroy()
