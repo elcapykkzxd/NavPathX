@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Non-Humanoid Edition
-Version: 1.2.2 | Last Updated: 2026-03-05
+Version: 1.2.2 | Last Updated: 2026-03-07
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -48,7 +48,7 @@ local WaypointTemplate = ReplicatedStorage.WaypointTemplate
 local VisualWaypoint = WaypointTemplate.VisualWaypoint
 local function CreateVisualWaypoints(Waypoints, ParentFolder)
 	local VisualWaypoints = {}
-	for i, Waypoint: PathWaypoint in ipairs(Waypoints) do
+	for i, Waypoint: PathWaypoint in Waypoints do
 		local VisualWaypointClone = VisualWaypoint:Clone()
 		VisualWaypointClone.Name = tostring(i)
 		VisualWaypointClone.Position = Waypoint.Position
@@ -63,7 +63,7 @@ end
 
 local function DestroyVisualWaypoints(self, Waypoints2)
 	if Waypoints2 then
-		for k, Waypoint2 in ipairs(Waypoints2) do
+		for k, Waypoint2 in Waypoints2 do
 			if Waypoint2:IsA("BasePart") and Waypoint2:IsDescendantOf(self._CustomFolder) then
 				Waypoint2:Destroy()
 				Waypoints2[k] = nil
