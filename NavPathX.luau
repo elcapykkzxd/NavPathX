@@ -1,7 +1,7 @@
 --[[
 =======================================================================
 NavPathX Smart AI Navigation System Module - Standard Edition
-Version: 1.2.2 | Last Updated: 2026-03-05
+Version: 1.2.2 | Last Updated: 2026-03-07
 =======================================================================
 Authors:
   - @Papisteve79 (Lead Developer)
@@ -56,7 +56,7 @@ local WaypointTemplate = ReplicatedStorage.WaypointTemplate
 local VisualWaypoint = WaypointTemplate.VisualWaypoint
 local function CreateVisualWaypoints(Waypoints)
 	local VisualWaypoints = {}
-	for _, Waypoint: PathWaypoint in ipairs(Waypoints) do
+	for _, Waypoint: PathWaypoint in Waypoints do
 		local VisualWaypointClone = VisualWaypoint:Clone()
 		VisualWaypointClone.Position = Waypoint.Position
 		VisualWaypointClone.Locked = true
@@ -75,7 +75,7 @@ end
 
 local function DestroyVisualWaypoints(Waypoints2)
 	if Waypoints2 then
-		for i, Waypoint2 in ipairs(Waypoints2) do
+		for i, Waypoint2 in Waypoints2 do
 			if Waypoint2:IsA("BasePart") and Waypoint2:IsDescendantOf(PathWaypoints) then
 				Waypoint2:Destroy()
 				Waypoints2[i] = nil
