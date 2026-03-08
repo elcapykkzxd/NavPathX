@@ -54,7 +54,7 @@ local PathWaypoints = workspace.PathWaypoints
 local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local WaypointTemplate = ReplicatedStorage.WaypointTemplate
 local VisualWaypoint = WaypointTemplate.VisualWaypoint
-local function CreateVisualWaypoints(Waypoints)
+local function CreateVisualWaypoints(Waypoints: {PathWaypoint})
 	local VisualWaypoints = {}
 	for _, Waypoint: PathWaypoint in Waypoints do
 		local VisualWaypointClone = VisualWaypoint:Clone()
