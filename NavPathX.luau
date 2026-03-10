@@ -27,9 +27,9 @@ References:
 
 --------[[ DEBUG ZONE ]]--------
 local Settings = {
-	TimeVariance = 0.01, -- TODO: Pathfinding delay for lag compensation (higher = less lag but slower | lower = more lag but faster)
-	ComparisonChecks = 1, -- TODO: Stuck position checks before triggering jump
-	CanJump = true -- TODO: Enable/Disable NPC jumping (true = Enabled | false = Disabled)
+	TimeVariance = 0.01, -- Pathfinding delay for lag compensation (higher = less lag but slower | lower = more lag but faster)
+	ComparisonChecks = 1, -- Stuck position checks before triggering jump
+	CanJump = true -- Enable/Disable NPC jumping (true = Enabled | false = Disabled)
 }
 -------------------------------------------------------------------
 local PathConfig = {}
