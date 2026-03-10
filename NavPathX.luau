@@ -63,12 +63,7 @@ local function CreateVisualWaypoints(Waypoints: {PathWaypoint})
 		VisualWaypointClone.Transparency = 0
 		VisualWaypointClone.Color = (Waypoint == Waypoints[#Waypoints] and Color3.new(1, 0, 0)) or (Waypoint.Action == Enum.PathWaypointAction.Jump and Color3.fromRGB(112, 255, 172)) or (Waypoint.Action == Enum.PathWaypointAction.Walk and Color3.new(1, 1, 1))
 		VisualWaypointClone.Parent = PathWaypoints
-		if VisualWaypointClone.Transparency == 1 then
-			VisualWaypointClone:Destroy()
-			VisualWaypointClone = nil
-		else
-			table.insert(VisualWaypoints, VisualWaypointClone)
-		end
+		table.insert(VisualWaypoints, VisualWaypointClone)
 	end
 	return VisualWaypoints
 end
