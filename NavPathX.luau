@@ -290,7 +290,7 @@ function PathConfig:Run(target: Goal?)
 	elseif self._PrimaryPart then
 		self._Time = os.clock()
 	end]] -- Uncomment this if you feel your NPC too laggy (Also you need uncomment _Time in PathConfig.SetSettings() function)
-	local PathComputed, _ = pcall(self._Path.ComputeAsync, self._Path, self._PrimaryPart.Position, target)
+	local PathComputed = pcall(self._Path.ComputeAsync, self._Path, self._PrimaryPart.Position, target)
 	if not PathComputed or self._Path.Status == Enum.PathStatus.NoPath or #self._Path:GetWaypoints() < 2 then
 		self._VisualWaypoints = DestroyVisualWaypoints(self._VisualWaypoints)
 		return nil
