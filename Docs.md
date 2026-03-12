@@ -847,7 +847,7 @@ A: Check the main README.md for contribution guidelines, or open an issue on Git
 MIT License - See LICENSE file for details
 
 ---
-For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPathX.)
+For more information, visit the [GitHub Repository](https://github.com/elcapykkzxd/NavPathX)
 
 
 
